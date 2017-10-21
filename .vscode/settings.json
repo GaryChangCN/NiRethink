@@ -1,0 +1,15 @@
+{
+    "tslint.enable": true,
+    "tslint.configFile": "tslint.json",
+    "files.exclude": {
+        "**/.DS_Store": true,
+        "**/*.js": {
+            "when": "$(basename).ts"
+        },
+        "**/*?.js": {
+            "when": "$(basename).tsx"
+        }
+    },
+    "tslint.run": "onType",
+    "typescript.tsdk": "./node_modules/typescript/lib"
+}

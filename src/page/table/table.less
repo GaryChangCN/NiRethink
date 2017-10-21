@@ -1,0 +1,103 @@
+.tables-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    .left {
+        flex-basis: 250px;
+        height: 100%;
+        overflow-y: scroll;
+        flex-shrink: 0;
+        flex-grow: 0;
+        box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
+        .tree-container {
+            box-shadow: initial;
+            .remove-db, .remove-table {
+                background: #eaeaea;
+                box-shadow: initial;
+                opacity: 0;
+                transition: opacity .3s;
+                &:hover {
+                    background: #BFCCD6;
+                }
+                &::before {
+                    color: #A82A2A;
+                    font-size: 14px;
+                    font-weight: 100;
+                }
+            }
+            .parent-item {
+                &:hover {
+                    & .remove-db {
+                        opacity: 1;
+                    }
+                }
+            }
+            .child-item {
+                &:hover {
+                    & .remove-table {
+                        opacity: 1;
+                    }
+                }
+            }
+            .child-item-select {
+                background: rgba(191, 204, 214, 0.35);
+            }
+        }
+    }
+    .right  {
+        height: 100%;
+        flex: 1;
+        overflow: hidden;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        .top {
+            flex-basis: 50px;
+            flex-shrink: 0;
+            flex-grow: 0;
+        }
+        .bottom {
+            flex-basis: 50px;
+            flex-shrink: 0;
+            flex-grow: 0;
+            padding: 0 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .limit {
+
+            }
+            .page-container {
+                ul {
+                    width: 100%;
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: flex-end;
+                    margin: 0;
+                    li {
+                        list-style-type: none;
+                        margin: 0 2px;
+                        color: #202B33;
+                        padding: 0;
+                        a {
+                            color: #202B33;
+                            width: 100%;
+                            height: 100%;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            padding: 0 3px;
+                        }
+                    }
+                }
+            }
+        }
+        .middle {
+            width: 100%;
+            overflow: hidden;
+            flex-grow: 1;
+            position: relative;
+        }
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "jsx": "react",
+        "target": "es2015",
+        "module": "commonjs",
+        "experimentalDecorators": true,
+        "outDir": "./src"
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}

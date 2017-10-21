@@ -1,0 +1,71 @@
+.add-conn-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    .pt-card {
+        width: 600px;
+        transform: translateY(-50px);
+        .line {
+            margin-bottom: 15px;
+            &:last-child {
+                margin-bottom: 0;
+            }
+            width: 100%;
+            .label {
+                font-size: 12px;
+                margin-bottom: 5px;
+            }
+            input {
+                width: 100%;
+            }
+        }
+        .line0 {
+            font-size: 16px;
+            color: #394b59;
+            padding: 10px 0;
+            border-bottom: 1px solid #E1E8ED;
+        }
+
+        .line2, .line3 {
+            display: flex;
+            .left {
+                width: 300px;
+                flex-grow: 2;
+                flex-shrink: 1;
+            }
+            .middle {
+                flex: 0;
+                flex-basis: 30px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                .sim {
+                    margin-bottom: -15px;
+                }
+            }
+            .right {
+                width: 100px;
+                flex: 1;
+            }
+        }
+        .line3 {
+            justify-content: space-between;
+            .left {
+                width: 300px;
+                flex: 1;
+                margin-right: 5px;
+            }
+            .right {
+                width: 300px;
+                flex: 1;
+                margin-left: 5px;
+            }
+        }
+        .line4 {
+            text-align: right;
+        }
+    }
+}
