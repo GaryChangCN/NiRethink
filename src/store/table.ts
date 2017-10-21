@@ -1,14 +1,17 @@
-import {observable} from 'mobx'
+import {observable, computed} from 'mobx'
 import * as _ from 'lodash'
+import l from '../lib/lang'
 
 import service from './service'
+import app from './app'
 
 class Table {
     private defaultDetail = {
         total: 0,
         list: [],
         limit: 20,
-        select: 0
+        select: 0,
+        indexList: {}
     }
 
     @observable
@@ -21,6 +24,14 @@ class Table {
             selectTableIndex: '',
             detail: _.cloneDeep(this.defaultDetail)
         },
+    }
+
+    private getDbName () {
+        return this.store.view.dbList[this.store.view.selectDbIndex]
+    }
+
+    private getTableName () {
+        return this.store.view.tableList[this.store.view.selectTableIndex]
     }
 
     change (path, value) {
@@ -83,8 +94,8 @@ class Table {
         const select = i ? i.selected : this.store.view.detail.select
         const limit = this.store.view.detail.limit
         const skip = select * limit
-        const dbName = this.store.view.dbList[this.store.view.selectDbIndex]
-        const tableName = this.store.view.tableList[this.store.view.selectTableIndex]
+        const dbName = this.getDbName()
+        const tableName = this.getTableName()
         const list = await service.fetchDetailList(dbName, tableName, skip, limit)
         this.store.view.detail.list = list
         this.store.view.detail.select = select
@@ -93,6 +104,27 @@ class Table {
     async changeLimit (limit) {
         this.change('view.detail.limit', limit)
         this.changePageSelect()
+    }
+
+    async listIndex () {
+        if (Object.keys(this.store.view.detail.indexList).length > 0) {
+            this.store.view.detail.indexList = {}
+            return
+        }
+        const dbName = this.getDbName()
+        const tableName = this.getTableName()
+        const list = await service.fetchDetailIndex(dbName, tableName)
+        if (list.length === 0) {
+            app.toaster(l`No index in the table`)
+            return
+        }
+        const obj: {
+            [key: string]: boolean
+        } = {}
+        for (const key of list) {
+            obj[key] = true
+        }
+        this.store.view.detail.indexList = obj
     }
 }
 

@@ -85,10 +85,21 @@ class Tables extends React.Component<any, any> {
                     />
                 </div>
                 <div className="right">
-                    <div className="top"></div>
+                    <div className="top">
+                        <div className="top-left"></div>
+                        <div className="top-right">
+                            <Tooltip content={l`Show/Hide Index List`} position={Position.LEFT}>
+                                <button
+                                    className="pt-button pt-small pt-icon-layout-hierarchy"
+                                    onClick={() => table.listIndex()}
+                                ></button>
+                            </Tooltip>
+                        </div>
+                    </div>
                     <div className="middle">
                         <Detail
                             list={data.detail.list}
+                            indexList={data.detail.indexList}
                         />
                     </div>
                     <div className="bottom">

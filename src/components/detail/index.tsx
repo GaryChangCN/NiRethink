@@ -9,7 +9,8 @@ class Detail extends React.Component<any, any> {
     ref: any = null
     toolIndex: number = -1
     static defaultProps = {
-        list: []
+        list: [],
+        indexList: {}
     }
     constructor (props) {
         super (props)
@@ -80,11 +81,12 @@ class Detail extends React.Component<any, any> {
 
     render () {
         const original = this.props.list
+        const {indexList} = this.props
         const head = this.getHead(original)
-        const tdArr = Array.from(head)
+        const cloneHead = Array.from(head)
         const theadEl = head.map((item, i) => {
             return (
-                <th key={i}>
+                <th key={i} className={indexList[item] ? 'inde' : ''}>
                     {item}
                 </th>
             )
@@ -103,10 +105,10 @@ class Detail extends React.Component<any, any> {
                             />
                         </Popover>
                     </td>
-                    {tdArr.map((key, j) => {
+                    {cloneHead.map((key, j) => {
                         const content = item[key] || ''
                         if (typeof content === 'object') {
-                            return <td key={j} className="object">
+                            return <td key={j} className={`object ${indexList[key] ? 'inde' : ''}`}>
                                 ...Object
                                 <span
                                     className="pt-icon-small pt-icon-caret-right more"
@@ -115,7 +117,7 @@ class Detail extends React.Component<any, any> {
                             </td>
                         }
                         if (content.length > 140) {
-                            return <td key={j} className="object">
+                            return <td key={j} className={`object ${indexList[key] ? 'inde' : ''}`}>
                                 {content.slice(0, 140) + '......'}
                                 <span
                                     className="pt-icon-small pt-icon-caret-right more"
@@ -123,7 +125,7 @@ class Detail extends React.Component<any, any> {
                                 ></span>
                             </td>
                         }
-                        return <td key={j}>
+                        return <td key={j} className={indexList[key] ? 'inde' : ''}>
                             {content}
                         </td>
                     })}

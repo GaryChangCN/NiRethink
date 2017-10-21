@@ -67,10 +67,7 @@ class Service {
     }
 
     async fetchDetailList (dbName, tableName, skip = 0, limit = 20) {
-        if (!dbName || !tableName) {
-            return []
-        }
-        if (this.disConn()) {
+        if (!dbName || !tableName || this.disConn()) {
             return []
         }
         try {
@@ -84,15 +81,24 @@ class Service {
     }
 
     async fetchDetailTotal (dbName, tableName) {
-        if (!dbName || !tableName) {
-            return 0
-        }
-        if (this.disConn()) {
+        if (!dbName || !tableName || this.disConn()) {
             return 0
         }
         try {
             const total: number = await r.db(dbName).table(tableName).count().run(this.conn)
             return total
+        } catch (error) {
+            throw new Error(error)
+        }
+    }
+
+    async fetchDetailIndex (dbName, tableName) {
+        if (!dbName || !tableName || this.disConn()) {
+            return []
+        }
+        try {
+            const list = await r.db(dbName).table(tableName).indexList().run(this.conn)
+            return list
         } catch (error) {
             throw new Error(error)
         }
