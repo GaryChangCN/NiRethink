@@ -1,5 +1,13 @@
 const webpack = require('webpack')
 const path = require('path')
+const fs = require('fs')
+
+const nodeModules = {}
+fs.readdirSync('node_modules').filter(x => {
+    return ['.bin'].indexOf(x) === -1
+}).forEach(mod => {
+    nodeModules[mod] = 'commonjs ' + mod
+})
 
 module.exports = {
     entry: [
@@ -10,6 +18,7 @@ module.exports = {
         path: path.resolve(__dirname, "../dist"),
         filename: 'bundle.js'
     },
+    externals: nodeModules,
     module: {
         rules: [{
             test: /\.js$/,

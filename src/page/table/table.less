@@ -65,26 +65,33 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            .limit {
-                width: 200px;
+            .tool-box {
                 display: flex;
-                .label {
-                    height: 24px;
-                    line-height: 24px;
-                    margin: 0 10px;
+                align-items: center;
+                .box {
+                    margin-left: 5px;
                 }
-                .number-container {
-                    width: 70px;
-                    input {
+                .limit {
+                    width: 200px;
+                    display: flex;
+                    .label {
                         height: 24px;
+                        line-height: 24px;
+                        margin: 0 10px;
                     }
-                    .pt-button-group {
-                        transform: scale(0.8);
-                        position: relative;
-                        top: -3px;
-                        left: -2px;
-                        button {
-                            outline: none;
+                    .number-container {
+                        width: 70px;
+                        input {
+                            height: 24px;
+                        }
+                        .pt-button-group {
+                            transform: scale(0.8);
+                            position: relative;
+                            top: -3px;
+                            left: -2px;
+                            button {
+                                outline: none;
+                            }
                         }
                     }
                 }

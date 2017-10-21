@@ -4,6 +4,7 @@ import {parseSearch} from '../../lib/util'
 import {Tree, TreeNode, ITreeNode, Tooltip, Position, NumericInput} from '@blueprintjs/core'
 import l from '../../lib/lang'
 import * as Pagenation from 'react-paginate'
+import Icon from '../../components/svg-icon'
 
 import table from '../../store/table'
 import Detail from '../../components/detail'
@@ -91,19 +92,26 @@ class Tables extends React.Component<any, any> {
                         />
                     </div>
                     <div className="bottom">
-                        <div className="limit">
-                            <div className="number-container">
-                                <NumericInput
-                                    stepSize={5}
-                                    min={20}
-                                    className="pt-small pt-fill"
-                                    max={100}
-                                    value={data.detail.limit}
-                                    onValueChange={limit => table.changeLimit(limit)}
-                                />
+                        <div className="tool-box">
+                            <div className="limit">
+                                <div className="number-container">
+                                    <NumericInput
+                                        stepSize={5}
+                                        min={20}
+                                        className="pt-small pt-fill"
+                                        max={100}
+                                        value={data.detail.limit}
+                                        onValueChange={limit => table.changeLimit(limit)}
+                                    />
+                                </div>
+                                <div className="label">
+                                {l`Rows`} / {l`Page`}
+                                </div>
                             </div>
-                            <div className="label">
-                               {l`Rows`} / {l`Page`}
+                            <div className="box">
+                                <Tooltip content="Use javascript to query this table">
+                                    <Icon type="terminal" className="terminal"/>
+                                </Tooltip>
                             </div>
                         </div>
                         <div className="page-container">
