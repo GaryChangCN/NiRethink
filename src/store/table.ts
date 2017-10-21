@@ -36,14 +36,16 @@ class Table {
         }
     }
 
-    resetParent () {
-        this.store.view.selectDbIndex = ''
-        this.store.view.tableList = []
-        this.resetChild()
-    }
-
-    resetChild () {
-        this.store.view.detail = _.cloneDeep(this.defaultDetail)
+    reset (type) {
+        if (type === 'parent') {
+            this.store.view.tableList = []
+            this.reset('child')
+            return
+        }
+        if (type === 'child') {
+            this.store.view.selectTableIndex = ''
+            this.store.view.detail = _.cloneDeep(this.defaultDetail)
+        }
     }
 
     async handleClick (index, type = 'parent') {
@@ -58,14 +60,14 @@ class Table {
                 }
                 return
             }
-            this.resetParent()
+            this.reset('parent')
             const list = await service.fetchTableList(dbName)
             this.store.view.selectDbIndex = index
             this.store.view.tableList = list
         }
         // child means table
         if (type === 'child') {
-            this.resetChild()
+            this.reset('child')
             const dbName = this.store.view.dbList[this.store.view.selectDbIndex]
             const tableName = this.store.view.tableList[index]
             const limit = this.store.view.detail.limit

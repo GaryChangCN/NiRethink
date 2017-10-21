@@ -96,11 +96,14 @@ class Tables extends React.Component<any, any> {
                                 <NumericInput
                                     stepSize={5}
                                     min={20}
-                                    className="pt-small"
+                                    className="pt-small pt-fill"
                                     max={100}
                                     value={data.detail.limit}
                                     onValueChange={limit => table.changeLimit(limit)}
                                 />
+                            </div>
+                            <div className="label">
+                               {l`Rows`} / {l`Page`}
                             </div>
                         </div>
                         <div className="page-container">

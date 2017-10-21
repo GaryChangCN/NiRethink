@@ -1,12 +1,13 @@
 import * as React from 'react'
 import * as _ from 'lodash'
-import {Dialog} from '@blueprintjs/core'
+import {Dialog, Tooltip, Position, Intent, Popover} from '@blueprintjs/core'
 import l from '../../lib/lang'
 
 import './detail.less'
 
 class Detail extends React.Component<any, any> {
     ref: any = null
+    toolIndex: number = -1
     static defaultProps = {
         list: []
     }
@@ -15,6 +16,7 @@ class Detail extends React.Component<any, any> {
         this.state = {
             dialog: ''
         }
+        this.handleTool = this.handleTool.bind(this)
     }
     private getHead (original) {
         let head = []
@@ -38,6 +40,44 @@ class Detail extends React.Component<any, any> {
             dialog
         })
     }
+
+    handleTool (type: string) {
+        if (this.toolIndex === -1) {
+            throw new Error('Uncaught row number')
+        }
+        const index = this.toolIndex
+        if (type === 'view') {
+            const data = this.props.list[index]
+            this.handleDialog(data)
+        }
+        this.toolIndex = -1
+    }
+
+    renderPopver () {
+        return (
+            <div className="popver-content">
+                <button
+                    className="pt-button pt-small pt-icon-eye-open opera"
+                    onClick={() => this.handleTool('view')}
+                >
+                    {l`view`}
+                </button>
+                <button
+                    className="pt-button pt-small pt-icon-edit opera"
+                    onClick={() => this.handleTool('edit')}
+                >
+                    {l`edit`}
+                </button>
+                <button
+                    className="pt-button pt-small pt-icon-trash opera"
+                    onClick={() => this.handleTool('remove')}
+                >
+                    {l`remove`}
+                </button>
+            </div>
+        )
+    }
+
     render () {
         const original = this.props.list
         const head = this.getHead(original)
@@ -52,6 +92,17 @@ class Detail extends React.Component<any, any> {
         const tbodyEl = original.map((item, i) => {
             return (
                 <tr key={i}>
+                    <td key={-1} className="tools">
+                        <Popover
+                            content={this.renderPopver()}
+                            position={i === 0 ? Position.BOTTOM : Position.TOP}
+                        >
+                            <button
+                                className="pt-button pt-small pt-icon-send-to-graph"
+                                onClick={() => {this.toolIndex = i}}
+                            />
+                        </Popover>
+                    </td>
                     {tdArr.map((key, j) => {
                         const content = item[key] || ''
                         if (typeof content === 'object') {
@@ -83,7 +134,10 @@ class Detail extends React.Component<any, any> {
             <div className="detail-container">
                 <table className="pt-table pt-striped pt-bordered pt-interactive table-container">
                     <thead>
-                        <tr>{theadEl}</tr>
+                        <tr>
+                            <th key={-1} className="tools">{l`Tools`}</th>
+                            {theadEl}
+                        </tr>
                     </thead>
                     <tbody>
                         {tbodyEl}

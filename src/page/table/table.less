@@ -66,7 +66,28 @@
             justify-content: space-between;
             align-items: center;
             .limit {
-
+                width: 200px;
+                display: flex;
+                .label {
+                    height: 24px;
+                    line-height: 24px;
+                    margin: 0 10px;
+                }
+                .number-container {
+                    width: 70px;
+                    input {
+                        height: 24px;
+                    }
+                    .pt-button-group {
+                        transform: scale(0.8);
+                        position: relative;
+                        top: -3px;
+                        left: -2px;
+                        button {
+                            outline: none;
+                        }
+                    }
+                }
             }
             .page-container {
                 ul {
@@ -80,6 +101,7 @@
                         margin: 0 2px;
                         color: #202B33;
                         padding: 0;
+                        outline: none;
                         a {
                             color: #202B33;
                             width: 100%;
