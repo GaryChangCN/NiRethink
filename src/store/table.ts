@@ -42,8 +42,8 @@ class Table {
         const list = await service.fetchDbList()
         this.store.view.dbList = list
         if (list.length > 0) {
-            await this.handleClick(0)
-            await this.handleClick(0, 'child')
+            // await this.handleClick(0)
+            // await this.handleClick(0, 'child')
         }
     }
 
