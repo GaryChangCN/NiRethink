@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom'
 import { observer } from 'mobx-react'
-import {Alert} from '@blueprintjs/core'
+import {Alert, Intent} from '@blueprintjs/core'
 import history from '../../lib/history'
 import l from '../../lib/lang'
 
@@ -35,6 +35,7 @@ class Header extends React.Component<any, any> {
                     onConfirm={() => app.store.prompt.callBack(app.store.prompt.msg)}
                     className="prompt-container"
                     cancelButtonText={l`Cancel`}
+                    intent={Intent[app.store.prompt.intent]}
                     confirmButtonText={l`Ok`}
                     onCancel={() => app.togglePrompt()}
                 >

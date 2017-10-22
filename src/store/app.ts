@@ -7,12 +7,19 @@ const OurToaster: IToaster = Toaster.create({
     position: Position.TOP,
 })
 
+interface Prompt {
+    value: string
+    callBack: (msg?: string) => void
+    msg: string
+    intent: 'PRIMARY' | 'DANGER' | 'WARNING'
+}
 
 class App {
-    private defaultPrompt = {
+    private defaultPrompt: Prompt = {
         value: '',
         callBack: _.noop,
-        msg: 'eeeee'
+        msg: '',
+        intent: 'PRIMARY'
     }
     @observable
     store = {
@@ -36,7 +43,7 @@ class App {
         _.set(this.store, path, value)
     }
 
-    togglePrompt (prompt?) {
+    togglePrompt (prompt?: Prompt) {
         this.store.prompt = _.cloneDeep(this.defaultPrompt)
         if (!prompt) {
             return
