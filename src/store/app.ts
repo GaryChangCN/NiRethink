@@ -27,10 +27,6 @@ class App {
         prompt: _.cloneDeep(this.defaultPrompt)
     }
 
-    toggleAlert (msg = '') {
-        this.store.alert = msg
-    }
-
     toaster (msg = '', PRIMARY: 'PRIMARY' | 'SUCCESS' | 'WARNING' | 'DANGER' = 'PRIMARY', timeout = 3000) {
         OurToaster.show({
             message: msg,
@@ -48,6 +44,7 @@ class App {
         if (!prompt) {
             return
         }
+        prompt.value = prompt.value || ''
         this.store.prompt = prompt
     }
 }
@@ -63,7 +60,7 @@ const handle = (err) => {
     }else {
         message = JSON.stringify(err)
     }
-    app.toggleAlert(message)
+    app.toaster(message, 'DANGER')
 }
 
 window.addEventListener('unhandledrejection', handle)

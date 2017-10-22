@@ -25,14 +25,8 @@ class Header extends React.Component<any, any> {
                     <div className="right"></div>
                 </nav>
                 <Alert
-                    isOpen={!!app.store.alert}
-                    onConfirm={() => app.toggleAlert('')}
-                >
-                    {app.store.alert}
-                </Alert>
-                <Alert
                     isOpen={!!app.store.prompt.msg}
-                    onConfirm={() => app.store.prompt.callBack(app.store.prompt.msg)}
+                    onConfirm={() => app.store.prompt.callBack(app.store.prompt.value)}
                     className="prompt-container"
                     cancelButtonText={l`Cancel`}
                     intent={Intent[app.store.prompt.intent]}
