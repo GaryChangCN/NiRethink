@@ -115,6 +115,39 @@ class Service {
         }
     }
 
+    async dropDatabase (dbName) {
+        if (!dbName || this.disConn()) {
+            return null
+        }
+        try {
+            await r.dbDrop(dbName).run(this.conn)
+        } catch (error) {
+            throw new Error(error)
+        }
+    }
+
+    async addTable (dbName, tableName) {
+        if (!dbName || !tableName || this.disConn()) {
+            return []
+        }
+        try {
+            await r.db(dbName).tableCreate(tableName).run(this.conn)
+        } catch (error) {
+            throw new Error(error)
+        }
+    }
+
+    async dropTable (dbName, tableName) {
+        if (!dbName || !tableName || this.disConn()) {
+            return []
+        }
+        try {
+            await r.db(dbName).tableDrop(tableName).run(this.conn)
+        } catch (error) {
+            throw new Error(error)
+        }
+    }
+
 }
 
 export default new Service()

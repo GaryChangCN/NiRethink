@@ -145,7 +145,7 @@ class Tables extends React.Component<any, any> {
         const {selectTableIndex, selectDbIndex, dbList} = table.store.view
         let content
         let addDb = true
-        if (selectTableIndex === '') {
+        if (selectDbIndex === '') {
             content = l`Add Database`
         }else {
             addDb = false

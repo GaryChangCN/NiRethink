@@ -51,6 +51,7 @@ class Table {
     reset (type) {
         if (type === 'parent') {
             this.store.view.tableList = []
+            this.store.view.selectDbIndex = ''
             this.reset('child')
             return
         }
@@ -61,28 +62,18 @@ class Table {
     }
 
     // change click catelog
-    async handleClick (index, type = 'parent') {
+    async handleCatelog (index, type = 'parent') {
         // parent means database
         if (type === 'parent') {
-            const dbName = this.store.view.dbList[index]
             if (index === this.store.view.selectDbIndex) {
-                if (this.store.view.tableList.length > 0) {
-                    this.reset('parent')
-                }else {
-                    const list = await service.fetchTableList(dbName)
-                    this.store.view.tableList = list
-                    if (list.length === 0 ) {
-                        app.toaster(l`This Database is empty`)
-                    }
-                }
+                this.reset('parent')
             }else {
-                const list = await service.fetchTableList(dbName)
+                this.reset('parent')
                 this.store.view.selectDbIndex = index
-                this.store.view.tableList = list
+                await this.freshTableList()
             }
             return
         }
-
         // child means table
         if (type === 'child') {
             this.reset('child')
@@ -94,6 +85,15 @@ class Table {
             this.store.view.selectTableIndex = index
             this.store.view.detail.list = list
             this.store.view.detail.total = total
+        }
+    }
+
+    async freshTableList () {
+        const dbName = this.getDbName()
+        const list = await service.fetchTableList(dbName)
+        this.store.view.tableList = list
+        if (list.length === 0 ) {
+            app.toaster(l`This database is empty`)
         }
     }
 
@@ -135,23 +135,47 @@ class Table {
     }
 
     async addDbOrTable (addDb: boolean) {
-        const cb = async (msg) => {
-            if (!msg) {
-                app.toaster(l`Database Name should't be empty`, 'DANGER', 5000)
-                return
-            }else {
-                await service.addDatabase(msg)
-                app.togglePrompt()
-                await this.viewDbList()
-                app.toaster(l`Success`)
+        if (addDb) {
+            const cb = async (msg) => {
+                if (!msg) {
+                    app.toaster(l`Database name should't be empty`, 'DANGER', 5000)
+                    return
+                }else {
+                    await service.addDatabase(msg)
+                    app.togglePrompt()
+                    await this.viewDbList()
+                    app.toaster(l`Success`)
+                }
             }
+            app.togglePrompt({
+                msg: l`New database name`,
+                callBack: cb,
+                value: '',
+                intent: 'PRIMARY'
+            })
+            return
+        }else {
+            const tableName = this.getTableName()
+            const cb = async (msg) => {
+                if (!msg) {
+                    app.toaster(l`Table name should't be empty`, 'DANGER', 5000)
+                    return
+                }else {
+                    await service.addTable(tableName, msg)
+                    app.togglePrompt()
+                    const selectDbIndex = this.store.view.selectTableIndex
+                    await this.freshTableList()
+                    app.toaster(l`Success`)
+                }
+            }
+            app.togglePrompt({
+                msg: l`New table name add to` + tableName,
+                callBack: cb,
+                value: '',
+                intent: 'PRIMARY'
+            })
+            return
         }
-        app.togglePrompt({
-            msg: l`New Database Name`,
-            callBack: cb,
-            value: '',
-            intent: 'PRIMARY'
-        })
     }
 }
 
