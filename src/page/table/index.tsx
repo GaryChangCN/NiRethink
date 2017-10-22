@@ -153,7 +153,7 @@ class Tables extends React.Component<any, any> {
         }
         return (
             <Tooltip content={content} position={Position.TOP}>
-                <div className="add-container">
+                <div className="add-container" onClick={() => table.addDbOrTable(addDb)}>
                     <span className="pt-icon-standard pt-icon-plus"></span>
                 </div>
             </Tooltip>

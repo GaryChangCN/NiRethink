@@ -109,7 +109,7 @@ class Service {
             return null
         }
         try {
-            await r.dbCreate(dbName)
+            await r.dbCreate(dbName).run(this.conn)
         } catch (error) {
             throw new Error(error)
         }

@@ -60,6 +60,7 @@ class Table {
         }
     }
 
+    // change click catelog
     async handleClick (index, type = 'parent') {
         // parent means database
         if (type === 'parent') {
@@ -70,6 +71,9 @@ class Table {
                 }else {
                     const list = await service.fetchTableList(dbName)
                     this.store.view.tableList = list
+                    if (list.length === 0 ) {
+                        app.toaster(l`This Database is empty`)
+                    }
                 }
             }else {
                 const list = await service.fetchTableList(dbName)
@@ -128,6 +132,26 @@ class Table {
             obj[key] = true
         }
         this.store.view.detail.indexList = obj
+    }
+
+    async addDbOrTable (addDb: boolean) {
+        const cb = async (msg) => {
+            if (!msg) {
+                app.toaster(l`Database Name should't be empty`, 'DANGER', 5000)
+                return
+            }else {
+                await service.addDatabase(msg)
+                app.togglePrompt()
+                await this.viewDbList()
+                app.toaster(l`Success`)
+            }
+        }
+        app.togglePrompt({
+            msg: l`New Database Name`,
+            callBack: cb,
+            value: '',
+            intent: 'PRIMARY'
+        })
     }
 }
 
