@@ -125,7 +125,7 @@ class Detail extends React.Component<any, any> {
                                 ></span>
                             </td>
                         }
-                        return <td key={j} className={indexList[key] ? 'inde' : ''}>
+                        return <td key={j} className={`${key === 'id' ? 'id-td' : ''} ${indexList[key] ? 'inde' : ''}`}>
                             {content}
                         </td>
                     })}

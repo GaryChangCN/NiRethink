@@ -29,11 +29,12 @@ class Tables extends React.Component<any, any> {
 
     renderRight () {
         const data = table.store.view
-        if (data.detail.list.length === 0 && data.selectTableIndex === '') {
+        const listLen = data.detail.list.length
+        if (listLen === 0 && data.selectTableIndex === '') {
             return (
                 <div className="pt-non-ideal-state">
                     <div className="pt-non-ideal-state-visual pt-non-ideal-state-icon">
-                        <span className="pt-icon pt-icon-stacked-chart"></span>
+                        <span className="pt-icon pt-icon-box"></span>
                     </div>
                     <h4 className="pt-non-ideal-state-title">{l`No table has selected`}</h4>
                     <div className="pt-non-ideal-state-description">
@@ -42,28 +43,13 @@ class Tables extends React.Component<any, any> {
                 </div>
             )
         }
-        return (
-            <div className="right">
-                <div className="top">
-                    <div className="top-left">
-                        <div className="bread">
-                        </div>
-                    </div>
-                    <div className="top-right">
-                        <Tooltip content={l`Show/Hide Index List`} position={Position.LEFT}>
-                            <button
-                                className="pt-button pt-small pt-icon-layout-hierarchy"
-                                onClick={() => table.listIndex()}
-                            ></button>
-                        </Tooltip>
-                    </div>
-                </div>
-                <div className="middle">
-                    <Detail
-                        list={data.detail.list}
-                        indexList={data.detail.indexList}
-                    />
-                </div>
+        const renderBottom = () => {
+            if (listLen === 0) {
+                return (
+                    <div className="bottom"></div>
+                )
+            }
+            return (
                 <div className="bottom">
                     <div className="tool-box">
                         <div className="limit">
@@ -105,6 +91,51 @@ class Tables extends React.Component<any, any> {
                         />
                     </div>
                 </div>
+            )
+        }
+        const renderMiddle = () => {
+            if (listLen === 0) {
+                return (
+                    <div className="middle middle-empty">
+                        <div className="pt-non-ideal-state">
+                            <div className="pt-non-ideal-state-visual pt-non-ideal-state-icon">
+                                <span className="pt-icon pt-icon-full-stacked-chart"></span>
+                            </div>
+                            <h4 className="pt-non-ideal-state-title">{l`This table is empty`}</h4>
+                            <div className="pt-non-ideal-state-description">
+                                {l`You can add new rows through the buttons above`}
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
+            return (
+                <div className="middle">
+                    <Detail
+                        list={data.detail.list}
+                        indexList={data.detail.indexList}
+                    />
+                </div>
+            )
+        }
+        return (
+            <div className="right">
+                <div className="top">
+                    <div className="top-left">
+                        <div className="bread">
+                        </div>
+                    </div>
+                    <div className="top-right">
+                        <Tooltip content={l`Show/Hide Index List`} position={Position.LEFT}>
+                            <button
+                                className="pt-button pt-small pt-icon-layout-hierarchy"
+                                onClick={() => table.listIndex()}
+                            ></button>
+                        </Tooltip>
+                    </div>
+                </div>
+                {renderMiddle()}
+                {renderBottom()}
             </div>
         )
     }
