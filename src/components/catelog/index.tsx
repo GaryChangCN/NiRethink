@@ -45,6 +45,14 @@ class Catelog extends React.Component<any, any> {
                     }
                 })
             }
+            childNodes.push({
+                index: -1,
+                id: -1,
+                type: 'add',
+                iconName: 'pt-icon-plus',
+                className: `child-item-add`,
+                label: 'Add New Table '
+            })
             let parentSelect = false
             if ((data.selectDbIndex as any) === i) {
                 parentSelect = true

@@ -85,6 +85,11 @@ class Table {
             this.store.view.selectTableIndex = index
             this.store.view.detail.list = list
             this.store.view.detail.total = total
+            return
+        }
+        // add means add table
+        if (type === 'add') {
+            await this.addDbOrTable(false)
         }
     }
 
@@ -155,21 +160,24 @@ class Table {
             })
             return
         }else {
-            const tableName = this.getTableName()
+            const dbName = this.getDbName()
             const cb = async (msg) => {
                 if (!msg) {
                     app.toaster(l`Table name should't be empty`, 'DANGER', 5000)
                     return
                 }else {
-                    await service.addTable(tableName, msg)
+                    if (!/^[A-Za-z0-9_]+$/.test(msg)) {
+                        app.toaster(l`Table name A-Za-z0-9_ only`, 'DANGER', 5000)
+                        return
+                    }
+                    await service.addTable(dbName, msg)
                     app.togglePrompt()
-                    const selectDbIndex = this.store.view.selectTableIndex
                     await this.freshTableList()
                     app.toaster(l`Success`)
                 }
             }
             app.togglePrompt({
-                msg: l`New table name add to` + tableName,
+                msg: l`New table name add to` + ' ' + dbName,
                 callBack: cb,
                 value: '',
                 intent: 'PRIMARY'
