@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { observer } from 'mobx-react'
 import {Alert} from '@blueprintjs/core'
 import history from '../../lib/history'
+import l from '../../lib/lang'
 
 import './header.less'
 
@@ -28,6 +29,23 @@ class Header extends React.Component<any, any> {
                     onConfirm={() => app.toggleAlert('')}
                 >
                     {app.store.alert}
+                </Alert>
+                <Alert
+                    isOpen={!!app.store.prompt.msg}
+                    onConfirm={() => app.store.prompt.callBack(app.store.prompt.msg)}
+                    className="prompt-container"
+                    cancelButtonText={l`Cancel`}
+                    confirmButtonText={l`Ok`}
+                    onCancel={() => app.togglePrompt()}
+                >
+                    <div className="msg">
+                        {app.store.prompt.msg}
+                    </div>
+                    <input
+                        className="pt-input pt-fill"
+                        value={app.store.prompt.value}
+                        onChange={e => app.change('prompt.value', e.target.value)}
+                    />
                 </Alert>
             </div>
         )

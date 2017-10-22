@@ -104,6 +104,17 @@ class Service {
         }
     }
 
+    async addDatabase (dbName) {
+        if (!dbName || this.disConn()) {
+            return null
+        }
+        try {
+            await r.dbCreate(dbName)
+        } catch (error) {
+            throw new Error(error)
+        }
+    }
+
 }
 
 export default new Service()

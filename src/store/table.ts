@@ -41,10 +41,11 @@ class Table {
     async viewDbList () {
         const list = await service.fetchDbList()
         this.store.view.dbList = list
-        if (list.length > 0) {
-            await this.handleClick(1)
-            await this.handleClick(0, 'child')
-        }
+        // console.log()
+        // if (list.length > 0) {
+        //     await this.handleClick(0)
+        //     await this.handleClick(0, 'child')
+        // }
     }
 
     reset (type) {

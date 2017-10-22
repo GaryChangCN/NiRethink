@@ -144,10 +144,12 @@ class Tables extends React.Component<any, any> {
     renderAdd () {
         const {selectTableIndex, selectDbIndex, dbList} = table.store.view
         let content
+        let addDb = true
         if (selectTableIndex === '') {
             content = l`Add Database`
         }else {
-            content = `${l`Add Table To Database:`}${dbList[selectDbIndex]}`
+            addDb = false
+            content = `${l`Add Table To Database:`} ${dbList[selectDbIndex]}`
         }
         return (
             <Tooltip content={content} position={Position.TOP}>

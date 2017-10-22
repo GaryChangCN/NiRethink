@@ -9,9 +9,15 @@ const OurToaster: IToaster = Toaster.create({
 
 
 class App {
+    private defaultPrompt = {
+        value: '',
+        callBack: _.noop,
+        msg: 'eeeee'
+    }
     @observable
     store = {
-        alert: ''
+        alert: '',
+        prompt: _.cloneDeep(this.defaultPrompt)
     }
 
     toggleAlert (msg = '') {
@@ -24,6 +30,18 @@ class App {
             intent: Intent[PRIMARY],
             timeout
         })
+    }
+
+    change (path, value) {
+        _.set(this.store, path, value)
+    }
+
+    togglePrompt (prompt?) {
+        this.store.prompt = _.cloneDeep(this.defaultPrompt)
+        if (!prompt) {
+            return
+        }
+        this.store.prompt = prompt
     }
 }
 
