@@ -2,9 +2,12 @@ import * as React from 'react'
 import {Tree, TreeNode, ITreeNode, Tooltip, Position} from '@blueprintjs/core'
 import l from '../../lib/lang'
 import * as _ from 'lodash'
+import {observer} from 'mobx-react'
+import table from '../../store/table'
 
 import './catelog.less'
 
+@observer
 class Catelog extends React.Component<any, any> {
     static defaultProps = {
         data: {
@@ -15,7 +18,8 @@ class Catelog extends React.Component<any, any> {
         onNodeClick: _.noop
     }
     render () {
-        const {data, onNodeClick, className} = this.props
+        const {className} = this.props
+        const data = table.store.view
         const nodes: any = data.dbList.map((dbName, i) => {
             let childNodes = []
             if (i === (data.selectDbIndex as any)) {
@@ -64,7 +68,7 @@ class Catelog extends React.Component<any, any> {
         return (
             <Tree
                 contents = {nodes}
-                onNodeClick = {(item: any) => onNodeClick(item)}
+                onNodeClick = {(item: any) => table.handleClick(item.index, item.type)}
                 className = {className}
             />
         )

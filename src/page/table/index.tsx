@@ -141,6 +141,23 @@ class Tables extends React.Component<any, any> {
         )
     }
 
+    renderAdd () {
+        const {selectTableIndex, selectDbIndex, dbList} = table.store.view
+        let content
+        if (selectTableIndex === '') {
+            content = l`Add Database`
+        }else {
+            content = `${l`Add Table To Database:`}${dbList[selectDbIndex]}`
+        }
+        return (
+            <Tooltip content={content} position={Position.TOP}>
+                <div className="add-container">
+                    <span className="pt-icon-standard pt-icon-plus"></span>
+                </div>
+            </Tooltip>
+        )
+    }
+
     render () {
         const data = table.store.view
 
@@ -148,10 +165,9 @@ class Tables extends React.Component<any, any> {
             <div className="tables-container">
                 <div className="left">
                     <Catelog
-                        data={data}
-                        onNodeClick={item => table.handleClick(item.index, item.type)}
-                        className = 'tree-container'
+                        className = 'tree-container catelog-container'
                     />
+                    {this.renderAdd()}
                 </div>
                 {this.renderRight()}
             </div>

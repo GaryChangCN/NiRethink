@@ -42,7 +42,7 @@ class Table {
         const list = await service.fetchDbList()
         this.store.view.dbList = list
         if (list.length > 0) {
-            await this.handleClick(0)
+            await this.handleClick(1)
             await this.handleClick(0, 'child')
         }
     }
@@ -65,17 +65,19 @@ class Table {
             const dbName = this.store.view.dbList[index]
             if (index === this.store.view.selectDbIndex) {
                 if (this.store.view.tableList.length > 0) {
-                    this.store.view.tableList = []
+                    this.reset('parent')
                 }else {
-                    this.store.view.tableList = await service.fetchTableList(dbName)
+                    const list = await service.fetchTableList(dbName)
+                    this.store.view.tableList = list
                 }
-                return
+            }else {
+                const list = await service.fetchTableList(dbName)
+                this.store.view.selectDbIndex = index
+                this.store.view.tableList = list
             }
-            this.reset('parent')
-            const list = await service.fetchTableList(dbName)
-            this.store.view.selectDbIndex = index
-            this.store.view.tableList = list
+            return
         }
+
         // child means table
         if (type === 'child') {
             this.reset('child')
