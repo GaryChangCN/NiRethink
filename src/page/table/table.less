@@ -10,40 +10,6 @@
         flex-shrink: 0;
         flex-grow: 0;
         box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
-        .tree-container {
-            box-shadow: initial;
-            .remove-db, .remove-table {
-                background: #eaeaea;
-                box-shadow: initial;
-                opacity: 0;
-                transition: opacity .3s;
-                &:hover {
-                    background: #BFCCD6;
-                }
-                &::before {
-                    color: #A82A2A;
-                    font-size: 14px;
-                    font-weight: 100;
-                }
-            }
-            .parent-item {
-                &:hover {
-                    & .remove-db {
-                        opacity: 1;
-                    }
-                }
-            }
-            .child-item {
-                &:hover {
-                    & .remove-table {
-                        opacity: 1;
-                    }
-                }
-            }
-            .child-item-select {
-                background: rgba(191, 204, 214, 0.35);
-            }
-        }
     }
     .right  {
         height: 100%;
@@ -58,7 +24,7 @@
             flex-grow: 0;
             display: flex;
             justify-content: space-between;
-            // border-bottom: 1px solid rgba(16, 22, 26, 0.15);
+            border-bottom: 1px solid rgba(16, 22, 26, 0.15);
             .top-right {
                 height: 100%;
                 display: flex;

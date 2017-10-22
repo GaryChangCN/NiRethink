@@ -1,13 +1,14 @@
 import * as React from 'react'
 import {observer} from 'mobx-react'
 import {parseSearch} from '../../lib/util'
-import {Tree, TreeNode, ITreeNode, Tooltip, Position, NumericInput} from '@blueprintjs/core'
+import {Tooltip, Position, NumericInput} from '@blueprintjs/core'
 import l from '../../lib/lang'
 import * as Pagenation from 'react-paginate'
 import Icon from '../../components/svg-icon'
 
 import table from '../../store/table'
 import Detail from '../../components/detail'
+import Catelog from '../../components/catelog'
 
 import './table.less'
 
@@ -143,57 +144,12 @@ class Tables extends React.Component<any, any> {
     render () {
         const data = table.store.view
 
-        const nodes: any = data.dbList.map((dbName, i) => {
-            let childNodes = []
-            if (i === (data.selectDbIndex as any)) {
-                childNodes = data.tableList.map((tableName, j) => {
-                    let select = false
-                    if (j === (data.selectTableIndex as any)) {
-                        select = true
-                    }
-                    return {
-                        index: j,
-                        id: j,
-                        type: 'child',
-                        iconName: select ? 'pt-icon-full-stacked-chart' : 'pt-icon-stacked-chart',
-                        label: tableName,
-                        className: `child-item ${select ? 'child-item-select' : ''}`,
-                        secondaryLabel: (
-                            <Tooltip content={l`Drop Table`} position={Position.RIGHT}>
-                                <button
-                                    className="pt-button pt-small pt-icon-trash remove-table"
-                                ></button>
-                            </Tooltip>
-                        )
-                    }
-                })
-            }
-            return {
-                index: i,
-                id: i,
-                type: 'parent',
-                iconName: 'database',
-                label: dbName,
-                className: 'parent-item',
-                isExpanded: childNodes.length > 0 ? true : false,
-                childNodes,
-                secondaryLabel: (
-                    <Tooltip
-                        content={l`Drop Database`}
-                        position={i === 0 ? Position.BOTTOM : Position.RIGHT}>
-                        <button
-                            className="pt-button pt-small pt-icon-trash remove-db"
-                        ></button>
-                    </Tooltip>
-                )
-            }
-        })
         return (
             <div className="tables-container">
                 <div className="left">
-                    <Tree
-                        contents = {nodes}
-                        onNodeClick = {(item: any) => table.handleClick(item.index, item.type)}
+                    <Catelog
+                        data={data}
+                        onNodeClick={item => table.handleClick(item.index, item.type)}
                         className = 'tree-container'
                     />
                 </div>

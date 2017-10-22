@@ -1,0 +1,34 @@
+.tree-container {
+    box-shadow: initial;
+    .remove-db, .remove-table {
+        background: #eaeaea;
+        box-shadow: initial;
+        opacity: 0;
+        transition: opacity .3s;
+        &:hover {
+            background: #BFCCD6;
+        }
+        &::before {
+            color: #A82A2A;
+            font-size: 14px;
+            font-weight: 100;
+        }
+    }
+    .parent-item {
+        &:hover {
+            & .remove-db {
+                opacity: 1;
+            }
+        }
+    }
+    .child-item {
+        &:hover {
+            & .remove-table {
+                opacity: 1;
+            }
+        }
+    }
+    .child-item-select {
+        background: rgba(191, 204, 214, 0.35);
+    }
+}
