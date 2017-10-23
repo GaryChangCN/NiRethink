@@ -9,17 +9,26 @@ import Icon from '../../components/svg-icon'
 import table from '../../store/table'
 import Detail from '../../components/detail'
 import Catelog from '../../components/catelog'
+import Editor from '../../components/editor'
 
 import './table.less'
 
 @observer
 class Tables extends React.Component<any, any> {
+    constructor (props) {
+        super(props)
+        this.state = {
+            viewType: 'tree'
+        }
+    }
+
     componentDidMount () {
         const query = parseSearch(this.props.location.search)
         const {connectionName} = query
         table.change('connectionName', connectionName)
         table.viewDbList()
     }
+
     async componentWillUpdate (nextProps) {
         const query = parseSearch(this.props.location.search)
         const nextQuery = parseSearch(nextProps.location.search)
@@ -31,6 +40,7 @@ class Tables extends React.Component<any, any> {
     renderRight () {
         const data = table.store.view
         const listLen = data.detail.list.length
+        const {viewType} = this.state
         if (listLen === 0 && data.selectTableIndex === '') {
             return (
                 <div className="pt-non-ideal-state">
@@ -110,32 +120,69 @@ class Tables extends React.Component<any, any> {
                     </div>
                 )
             }
+            const detailList: any = data.detail.list
             return (
                 <div className="middle">
+                    {viewType === 'table' ?
                     <Detail
-                        list={data.detail.list}
+                        list={detailList.peek()}
                         indexList={data.detail.indexList}
-                    />
+                    /> : <Editor
+                        type='view'
+                        data={detailList.peek()}
+                    />}
                 </div>
             )
         }
-        return (
-            <div className="right">
+        const renderTop = () => {
+            const isListEmpty = listLen === 0
+            return (
                 <div className="top">
                     <div className="top-left">
                         <div className="bread">
                         </div>
                     </div>
+                    <div className="top-center">
+                        <div className="pt-button-group">
+                            <Tooltip
+                                content={l`View as table`}
+                                position={Position.BOTTOM}
+                            >
+                                <a
+                                    className={`pt-button pt-icon-th ${viewType === 'table' ? 'pt-active' : ''}`}
+                                    role="button"
+                                    onClick={() => this.setState({viewType: 'table'})}
+                                ></a>
+                            </Tooltip>
+                            <Tooltip
+                                content={l`View as tree`}
+                                position={Position.BOTTOM}
+                            >
+                                <a
+                                    // tslint:disable-next-line:max-line-length
+                                    className={`pt-button pt-icon-fast-backward tree-icon ${viewType === 'tree' ? 'pt-active' : ''}`}
+                                    role="button"
+                                    onClick={() => this.setState({viewType: 'tree'})}
+                                ></a>
+                            </Tooltip>
+                        </div>
+                    </div>
                     <div className="top-right">
-                        {listLen === 0 ? '' :
-                        <Tooltip content={l`Show/Hide Index List`} position={Position.LEFT}>
-                            <button
-                                className="pt-button pt-small pt-icon-layout-hierarchy"
-                                onClick={() => table.listIndex()}
-                            ></button>
-                        </Tooltip>}
+                        {(!isListEmpty && viewType === 'table') ?
+                            <Tooltip content={l`Show/Hide Index List`} position={Position.LEFT}>
+                                <button
+                                    className="pt-button pt-small pt-icon-layout-hierarchy"
+                                    onClick={() => table.listIndex()}
+                                ></button>
+                            </Tooltip>
+                        : ''}
                     </div>
                 </div>
+            )
+        }
+        return (
+            <div className="right">
+                {renderTop()}
                 {renderMiddle()}
                 {renderBottom()}
             </div>
