@@ -127,12 +127,13 @@ class Tables extends React.Component<any, any> {
                         </div>
                     </div>
                     <div className="top-right">
+                        {listLen === 0 ? '' :
                         <Tooltip content={l`Show/Hide Index List`} position={Position.LEFT}>
                             <button
                                 className="pt-button pt-small pt-icon-layout-hierarchy"
                                 onClick={() => table.listIndex()}
                             ></button>
-                        </Tooltip>
+                        </Tooltip>}
                     </div>
                 </div>
                 {renderMiddle()}

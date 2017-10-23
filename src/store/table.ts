@@ -42,10 +42,10 @@ class Table {
         const list = await service.fetchDbList()
         this.store.view.dbList = list
         // console.log()
-        // if (list.length > 0) {
-        //     await this.handleClick(0)
-        //     await this.handleClick(0, 'child')
-        // }
+        if (list.length > 0) {
+            await this.handleCatelog(0)
+            await this.handleCatelog(0, 'child')
+        }
     }
 
     reset (type) {
@@ -70,7 +70,7 @@ class Table {
             }else {
                 this.reset('parent')
                 this.store.view.selectDbIndex = index
-                await this.freshTableList()
+                await this.viewTableList()
             }
             return
         }
@@ -93,7 +93,7 @@ class Table {
         }
     }
 
-    async freshTableList () {
+    async viewTableList () {
         const dbName = this.getDbName()
         const list = await service.fetchTableList(dbName)
         this.store.view.tableList = list
@@ -172,7 +172,7 @@ class Table {
                     }
                     await service.addTable(dbName, msg)
                     app.togglePrompt()
-                    await this.freshTableList()
+                    await this.viewTableList()
                     app.toaster(l`Success`)
                 }
             }
@@ -181,6 +181,40 @@ class Table {
                 callBack: cb,
                 value: '',
                 intent: 'PRIMARY'
+            })
+            return
+        }
+    }
+
+    async dropDbOrTable (i, j?) {
+        const dbName = this.store.view.dbList[i]
+        if (j > -1) {
+            // drop table
+            const tableName = this.store.view.tableList[j]
+            const cb = async () => {
+                await service.dropTable(dbName, tableName)
+                app.toggleConfirm()
+                await this.viewTableList()
+                app.toaster(l`Success`)
+            }
+            app.toggleConfirm({
+                msg: l`DELELE table` + ': ' + tableName + '?',
+                callBack: cb,
+                intent: 'DANGER'
+            })
+            return
+        }else {
+            // drop database
+            const cb = async () => {
+                await service.dropDatabase(dbName)
+                app.toggleConfirm()
+                await this.viewDbList()
+                app.toaster(l`Success`)
+            }
+            app.toggleConfirm({
+                msg: l`DELELE database` + ': ' + dbName + '?',
+                callBack: cb,
+                intent: 'DANGER'
             })
             return
         }

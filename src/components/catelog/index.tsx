@@ -39,6 +39,10 @@ class Catelog extends React.Component<any, any> {
                             <Tooltip content={l`Drop Table`} position={Position.RIGHT}>
                                 <button
                                     className="pt-button pt-small pt-icon-trash remove-table"
+                                    onClick={e => {
+                                        e.stopPropagation()
+                                        table.dropDbOrTable(i, j)
+                                    }}
                                 ></button>
                             </Tooltip>
                         )
@@ -72,6 +76,10 @@ class Catelog extends React.Component<any, any> {
                         position={i === 0 ? Position.BOTTOM : Position.RIGHT}>
                         <button
                             className="pt-button pt-small pt-icon-trash remove-db"
+                            onClick={e => {
+                                e.stopPropagation()
+                                table.dropDbOrTable(i)
+                            }}
                         ></button>
                     </Tooltip>
                 )

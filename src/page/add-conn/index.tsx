@@ -9,6 +9,7 @@ import add from '../../store/add'
 @observer
 class AddConn extends React.Component<any, any> {
     componentDidMount () {
+        // consol.log
         if (process.env.NODE_ENV === 'development') {
             setTimeout(function () {
                 add.add()
