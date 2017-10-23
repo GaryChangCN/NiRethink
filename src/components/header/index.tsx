@@ -39,8 +39,22 @@ class Header extends React.Component<any, any> {
                     <input
                         className="pt-input pt-fill"
                         value={app.store.prompt.value}
+                        autoFocus={true}
                         onChange={e => app.change('prompt.value', e.target.value)}
                     />
+                </Alert>
+                <Alert
+                    isOpen={!!app.store.confirm.msg}
+                    onConfirm={() => app.store.confirm.callBack()}
+                    className="confirm-container"
+                    cancelButtonText={l`Cancel`}
+                    intent={Intent[app.store.confirm.intent]}
+                    confirmButtonText={l`Ok`}
+                    onCancel={() => app.toggleConfirm()}
+                >
+                    <div className="msg">
+                        {app.store.confirm.msg}
+                    </div>
                 </Alert>
             </div>
         )

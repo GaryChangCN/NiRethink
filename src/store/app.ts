@@ -14,6 +14,12 @@ interface Prompt {
     intent: 'PRIMARY' | 'DANGER' | 'WARNING'
 }
 
+interface Confirm {
+    callBack: () => void
+    msg: string
+    intent: 'PRIMARY' | 'DANGER' | 'WARNING'
+}
+
 class App {
     private defaultPrompt: Prompt = {
         value: '',
@@ -21,10 +27,18 @@ class App {
         msg: '',
         intent: 'PRIMARY'
     }
+
+    private defaultConfirm: Confirm = {
+        msg: '',
+        callBack: _.noop,
+        intent: 'PRIMARY'
+    }
+
     @observable
     store = {
         alert: '',
-        prompt: _.cloneDeep(this.defaultPrompt)
+        prompt: _.cloneDeep(this.defaultPrompt),
+        confirm: _.cloneDeep(this.defaultConfirm)
     }
 
     toaster (msg = '', PRIMARY: 'PRIMARY' | 'SUCCESS' | 'WARNING' | 'DANGER' = 'PRIMARY', timeout = 3000) {
@@ -40,12 +54,20 @@ class App {
     }
 
     togglePrompt (prompt?: Prompt) {
-        this.store.prompt = _.cloneDeep(this.defaultPrompt)
         if (!prompt) {
+            this.store.prompt = _.cloneDeep(this.defaultPrompt)
             return
         }
         prompt.value = prompt.value || ''
         this.store.prompt = prompt
+    }
+
+    toggleConfirm (confirm?: Confirm) {
+        if (!confirm) {
+            this.store.confirm = _.cloneDeep(this.defaultConfirm)
+            return
+        }
+        this.store.confirm = confirm
     }
 }
 
