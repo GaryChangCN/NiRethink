@@ -18,7 +18,7 @@ class Tables extends React.Component<any, any> {
     constructor (props) {
         super(props)
         this.state = {
-            viewType: 'tree'
+            viewType: 'table'
         }
     }
 
@@ -54,6 +54,7 @@ class Tables extends React.Component<any, any> {
                 </div>
             )
         }
+        const tableName = data.tableList[data.selectTableIndex]
         const renderBottom = () => {
             if (listLen === 0) {
                 return (
@@ -130,6 +131,7 @@ class Tables extends React.Component<any, any> {
                     /> : <Editor
                         type='view'
                         data={detailList.peek()}
+                        rootName={tableName}
                     />}
                 </div>
             )

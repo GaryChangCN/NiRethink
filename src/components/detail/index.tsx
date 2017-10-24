@@ -2,6 +2,7 @@ import * as React from 'react'
 import * as _ from 'lodash'
 import {Dialog, Tooltip, Position, Intent, Popover} from '@blueprintjs/core'
 import l from '../../lib/lang'
+import Editor from '../../components/editor'
 
 import './detail.less'
 
@@ -15,7 +16,8 @@ class Detail extends React.Component<any, any> {
     constructor (props) {
         super (props)
         this.state = {
-            dialog: ''
+            dialog: '',
+            showDialog: false
         }
         this.handleTool = this.handleTool.bind(this)
     }
@@ -29,17 +31,14 @@ class Detail extends React.Component<any, any> {
         return head
     }
 
-    handleDialog (msg = {}) {
-        let dialog
-
-        if (typeof msg === 'object') {
-            dialog = JSON.stringify(msg, null, 4)
+    handleDialog (dialog = '') {
+        const state: any = {dialog}
+        if (dialog) {
+            state.showDialog = true
         }else {
-            dialog = msg
+            state.showDialog = false
         }
-        this.setState({
-            dialog
-        })
+        this.setState(state)
     }
 
     handleTool (type: string) {
@@ -99,10 +98,12 @@ class Detail extends React.Component<any, any> {
                             content={this.renderPopver()}
                             position={i === 0 ? Position.BOTTOM : Position.TOP}
                         >
-                            <button
-                                className="pt-button pt-small pt-icon-send-to-graph"
-                                onClick={() => {this.toolIndex = i}}
-                            />
+                            <Tooltip content={l`Show Toolbox`}>
+                                <button
+                                    className="pt-button pt-small pt-icon-send-to-graph"
+                                    onClick={() => {this.toolIndex = i}}
+                                />
+                            </Tooltip>
                         </Popover>
                     </td>
                     {cloneHead.map((key, j) => {
@@ -132,6 +133,17 @@ class Detail extends React.Component<any, any> {
                 </tr>
             )
         })
+        const renderViewDetail = () => {
+            const {dialog} = this.state
+            if (typeof dialog === 'object') {
+                return <Editor
+                        data={this.state.dialog}
+                        rootName={false}
+                        className="editor-in-dialog"
+                    />
+            }
+            return <pre><code>{String(dialog)}</code></pre>
+        }
         return (
             <div className="detail-container">
                 <table className="pt-table pt-striped pt-bordered pt-interactive table-container">
@@ -146,16 +158,12 @@ class Detail extends React.Component<any, any> {
                     </tbody>
                 </table>
                 <Dialog
-                    isOpen={!!this.state.dialog}
+                    isOpen={this.state.showDialog}
                     title={l`Detail Information`}
-                    onClose={() => this.handleDialog('')}
+                    onClose={() => this.handleDialog()}
                 >
                     <div className="dialog-body">
-                        <pre>
-                            <code>
-                                {this.state.dialog}
-                            </code>
-                        </pre>
+                        {renderViewDetail()}
                     </div>
                 </Dialog>
             </div>
