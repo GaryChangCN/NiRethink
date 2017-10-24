@@ -43,7 +43,7 @@ class Table {
         this.store.view.dbList = list
         // console.log()
         if (list.length > 0) {
-            await this.handleCatelog(0)
+            await this.handleCatelog(3)
             await this.handleCatelog(0, 'child')
         }
     }
@@ -218,6 +218,26 @@ class Table {
             })
             return
         }
+    }
+
+    async insertRow (data) {
+        const dbName = this.getDbName()
+        const tableName = this.getTableName()
+        let json
+        try {
+            json = JSON.parse(data)
+        } catch (error) {
+            app.toaster(l`Illegal JSON`, 'DANGER', 5000)
+            return false
+        }
+        if (typeof json !== 'object') {
+            app.toaster(l`Only support insert object to this table`, 'DANGER', 3000)
+            return false
+        }
+        await service.insertTable(dbName, tableName, json)
+        app.toaster(l`Success`)
+        await this.handleCatelog(this.store.view.selectTableIndex, 'child')
+        return true
     }
 }
 

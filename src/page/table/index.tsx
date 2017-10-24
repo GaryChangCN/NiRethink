@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {observer} from 'mobx-react'
 import {parseSearch} from '../../lib/util'
-import {Tooltip, Position, NumericInput} from '@blueprintjs/core'
+import {Tooltip, Position, NumericInput, Dialog, EditableText} from '@blueprintjs/core'
 import l from '../../lib/lang'
 import * as Pagenation from 'react-paginate'
 import Icon from '../../components/svg-icon'
@@ -18,7 +18,12 @@ class Tables extends React.Component<any, any> {
     constructor (props) {
         super(props)
         this.state = {
-            viewType: 'table'
+            viewType: 'table',
+            dialog: {
+                type: 'add',
+                value: '',
+                open: false
+            }
         }
     }
 
@@ -35,6 +40,28 @@ class Tables extends React.Component<any, any> {
         if (query.connectionName !== nextQuery.connectionName) {
             table.change('connectionName', nextQuery.connectionName)
         }
+    }
+
+    toggleDialog (open = false, value = '', type = 'add') {
+        const dialog = {type, value, open}
+        this.setState({dialog})
+    }
+
+    async submitDialog () {
+        const {dialog} = this.state
+        if (dialog.type === 'add') {
+            const ret = await table.insertRow(dialog.value)
+            if (!ret) {
+                return
+            }
+            this.toggleDialog()
+        }
+    }
+
+    changeDialog (value) {
+        const {dialog} = this.state
+        dialog.value = value
+        this.setState({dialog})
     }
 
     renderRight () {
@@ -141,8 +168,13 @@ class Tables extends React.Component<any, any> {
             return (
                 <div className="top">
                     <div className="top-left">
-                        <div className="bread">
-                        </div>
+                        <Tooltip content={l`Add new row`} position={Position.BOTTOM}>
+                            <button
+                                className="pt-button pt-small pt-icon-plus"
+                                onClick={() => this.toggleDialog(true, '', 'add')}
+                            >
+                            </button>
+                        </Tooltip>
                     </div>
                     <div className="top-center">
                         <div className="pt-button-group">
@@ -191,7 +223,7 @@ class Tables extends React.Component<any, any> {
         )
     }
 
-    renderAdd () {
+    renderAddDatabse () {
         return (
             <Tooltip content={l`Add Database`} position={Position.TOP}>
                 <div className="add-container" onClick={() => table.addDbOrTable(true)}>
@@ -203,16 +235,43 @@ class Tables extends React.Component<any, any> {
 
     render () {
         const data = table.store.view
-
+        const {dialog} = this.state
         return (
             <div className="tables-container">
                 <div className="left">
                     <Catelog
                         className = 'tree-container catelog-container'
                     />
-                    {this.renderAdd()}
+                    {this.renderAddDatabse()}
                 </div>
                 {this.renderRight()}
+                <Dialog
+                    iconName="edit"
+                    className="add-edit-dialog"
+                    isOpen={dialog.open}
+                    title={dialog.type === 'add' ? l`Add new row` : l`Edit this row`}
+                    onClose={() => this.toggleDialog()}
+                >
+                    <div className="editable-container">
+                        <EditableText
+                            maxLines={25}
+                            multiline={true}
+                            minLines={3}
+                            value={dialog.value}
+                            onChange={value => this.changeDialog(value)}
+                        />
+                    </div>
+                    <div className="control">
+                        <button
+                            className="pt-button"
+                            onClick={() => this.toggleDialog()}
+                        >{l`Cancel`}</button>
+                        <button
+                            className="pt-button pt-intent-primary"
+                            onClick={() => this.submitDialog()}
+                        >{l`Ok`}</button>
+                    </div>
+                </Dialog>
             </div>
         )
     }

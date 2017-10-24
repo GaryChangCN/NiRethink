@@ -107,7 +107,7 @@ class Detail extends React.Component<any, any> {
                         </Popover>
                     </td>
                     {cloneHead.map((key, j) => {
-                        const content = item[key] || ''
+                        let content = item[key] || ''
                         if (typeof content === 'object') {
                             return <td key={j} className={`object ${indexList[key] ? 'inde' : ''}`}>
                                 ...Object
@@ -117,6 +117,7 @@ class Detail extends React.Component<any, any> {
                                 ></span>
                             </td>
                         }
+                        content = String(content)
                         if (content.length > 140) {
                             return <td key={j} className={`object ${indexList[key] ? 'inde' : ''}`}>
                                 {content.slice(0, 140) + '......'}
@@ -161,6 +162,7 @@ class Detail extends React.Component<any, any> {
                     isOpen={this.state.showDialog}
                     title={l`Detail Information`}
                     onClose={() => this.handleDialog()}
+                    iconName="eye-open"
                 >
                     <div className="dialog-body">
                         {renderViewDetail()}

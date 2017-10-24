@@ -148,6 +148,17 @@ class Service {
         }
     }
 
+    async insertTable (dbName, tableName, data) {
+        if (!dbName || !tableName || this.disConn()) {
+            throw new Error(l`dbName and tableName is needed`)
+        }
+        try {
+            await r.db(dbName).table(tableName).insert(data).run(this.conn)
+        } catch (error) {
+            throw new Error(error)
+        }
+    }
+
 }
 
 export default new Service()
