@@ -57,7 +57,7 @@ module.exports = (task, option) => {
     })
 
     task('electron', 'electron', () => {
-        kit.spawn('/Applications/Electron.app/Contents/MacOS/Electron', ['.'], {prefix: 'Electron | :blue'})
+        kit.spawn('./node_modules/electron/cli.js', ['.'], {prefix: 'Electron | :blue'})
     })
 
     task('build', ['tsc-p'], 'build', kit.async(function * (opt) {

@@ -1,7 +1,7 @@
 {
     "name": "NiRethink",
     "version": "1.0.0",
-    "description": "",
+    "description": "thinkdb gui client",
     "main": "main.js",
     "scripts": {
         "dev": "no",
@@ -12,6 +12,7 @@
     "author": "gary",
     "license": "MIT",
     "devDependencies": {
+        "@types/electron": "^1.6.10",
         "@types/history": "^4.6.1",
         "@types/lodash": "^4.14.78",
         "@types/node": "^8.0.46",
@@ -30,6 +31,9 @@
         "babel-preset-stage-3": "6.24.1",
         "cross-env": "5.0.5",
         "css-loader": "0.28.5",
+        "electron": "~1.6.2",
+        "electron-packager": "^8.6.0",
+        "electron-winstaller": "^2.2.0",
         "file-loader": "^1.1.5",
         "less": "2.7.2",
         "less-loader": "4.0.5",
