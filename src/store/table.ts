@@ -239,6 +239,30 @@ class Table {
         await this.handleCatelog(this.store.view.selectTableIndex, 'child')
         return true
     }
+
+    async removeRow (id) {
+        await service.removeRow(this.getDbName(), this.getTableName(), id)
+        this.handleCatelog(this.store.view.selectTableIndex, 'child')
+        app.toaster(l`Success`, 'SUCCESS')
+    }
+
+    async editRow (data, oldData) {
+        let newData
+        try {
+            newData = JSON.parse(data)
+        } catch (error) {
+            app.toaster(l`Illegal JSON`, 'DANGER', 5000)
+            return false
+        }
+        if (newData.id !== oldData.id) {
+            app.toaster(l`Can't change id! Use old id as default.`, 'PRIMARY', 4000)
+            newData.id = oldData.id
+        }
+        await service.editRow(this.getDbName(), this.getTableName(), newData)
+        this.handleCatelog(this.store.view.selectTableIndex, 'child')
+        app.toaster(l`Success`, 'SUCCESS')
+        return true
+    }
 }
 
 export default new Table()

@@ -15,6 +15,7 @@ import './table.less'
 
 @observer
 class Tables extends React.Component<any, any> {
+    oldData: any = ''
     constructor (props) {
         super(props)
         this.state = {
@@ -55,6 +56,15 @@ class Tables extends React.Component<any, any> {
                 return
             }
             this.toggleDialog()
+            return
+        }
+        if (dialog.type === 'edit') {
+            const ret = await table.editRow(dialog.value, this.oldData)
+            if (!ret) {
+                return
+            }
+            this.oldData = ''
+            this.toggleDialog()
         }
     }
 
@@ -62,6 +72,17 @@ class Tables extends React.Component<any, any> {
         const {dialog} = this.state
         dialog.value = value
         this.setState({dialog})
+    }
+
+    handleEditRow (data) {
+        this.oldData = data
+        this.setState({
+            dialog: {
+                type: 'edit',
+                value: JSON.stringify(data, null, 4),
+                open: true
+            }
+        })
     }
 
     renderRight () {
@@ -155,6 +176,8 @@ class Tables extends React.Component<any, any> {
                     <Detail
                         list={detailList.peek()}
                         indexList={data.detail.indexList}
+                        onRemoveRow={id => table.removeRow(id)}
+                        onEditRow={datas => this.handleEditRow(datas)}
                     /> : <Editor
                         type='view'
                         data={detailList.peek()}

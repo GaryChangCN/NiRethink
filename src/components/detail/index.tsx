@@ -8,16 +8,19 @@ import './detail.less'
 
 class Detail extends React.Component<any, any> {
     ref: any = null
-    toolIndex: number = -1
+
     static defaultProps = {
         list: [],
-        indexList: {}
+        indexList: {},
+        onRemoveRow: _.noop,
+        onEditRow: _.noop
     }
     constructor (props) {
         super (props)
         this.state = {
             dialog: '',
-            showDialog: false
+            showDialog: false,
+            toolIndex: -1
         }
         this.handleTool = this.handleTool.bind(this)
     }
@@ -42,20 +45,33 @@ class Detail extends React.Component<any, any> {
     }
 
     handleTool (type: string) {
-        if (this.toolIndex === -1) {
+        if (this.state.toolIndex === -1) {
             throw new Error('Uncaught row number')
         }
-        const index = this.toolIndex
+        const index = this.state.toolIndex
         if (type === 'view') {
             const data = this.props.list[index]
             this.handleDialog(data)
         }
-        this.toolIndex = -1
+        if (type === 'remove') {
+            const id = this.props.list[index].id
+            this.props.onRemoveRow(id)
+        }
+        if (type === 'edit') {
+            const data = this.props.list[index]
+            this.props.onEditRow(data)
+        }
+        this.setState({
+            toolIndex: -1
+        })
     }
 
     renderPopver () {
         return (
             <div className="popver-content">
+                <div className="title">
+                    {l`Row Operation`}
+                </div>
                 <button
                     className="pt-button pt-small pt-icon-eye-open opera"
                     onClick={() => this.handleTool('view')}
@@ -97,11 +113,14 @@ class Detail extends React.Component<any, any> {
                         <Popover
                             content={this.renderPopver()}
                             position={i === 0 ? Position.BOTTOM : Position.TOP}
+                            isOpen={this.state.toolIndex === i}
                         >
                             <Tooltip content={l`Show Toolbox`}>
                                 <button
                                     className="pt-button pt-small pt-icon-send-to-graph"
-                                    onClick={() => {this.toolIndex = i}}
+                                    onClick={() => {
+                                        this.setState({toolIndex: i})
+                                    }}
                                 />
                             </Tooltip>
                         </Popover>
@@ -111,6 +130,15 @@ class Detail extends React.Component<any, any> {
                         if (typeof content === 'object') {
                             return <td key={j} className={`object ${indexList[key] ? 'inde' : ''}`}>
                                 ...Object
+                                <span
+                                    className="pt-icon-small pt-icon-caret-right more"
+                                    onClick={() => this.handleDialog(content)}
+                                ></span>
+                            </td>
+                        }
+                        if (typeof content === 'boolean') {
+                            return <td key={j} className={`object ${indexList[key] ? 'inde' : ''}`}>
+                                {String(content)}
                                 <span
                                     className="pt-icon-small pt-icon-caret-right more"
                                     onClick={() => this.handleDialog(content)}
