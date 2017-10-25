@@ -202,14 +202,13 @@ class Tables extends React.Component<any, any> {
                         </div>
                     </div>
                     <div className="top-right">
-                        {(!isListEmpty && viewType === 'table') ?
-                            <Tooltip content={l`Show/Hide Index List`} position={Position.LEFT}>
-                                <button
-                                    className="pt-button pt-small pt-icon-layout-hierarchy"
-                                    onClick={() => table.listIndex()}
-                                ></button>
-                            </Tooltip>
-                        : ''}
+                        <Tooltip content={l`Show/Hide Index List`} position={Position.LEFT}>
+                            <button
+                                className="pt-button pt-small pt-icon-layout-hierarchy"
+                                onClick={() => table.listIndex()}
+                                disabled={isListEmpty && viewType === 'table'}
+                            ></button>
+                        </Tooltip>
                     </div>
                 </div>
             )

@@ -39,7 +39,11 @@ module.exports = (task, option) => {
         })
     }))
 
-    task('dev', ['check-dev', 'tsc-w', 'electron'], 'webpack-dev-server', (opt) => {
+    task('template', 'render-template', kit.async(function * () {
+        yield kit.exec('node ./config/template.js')
+    }))
+
+    task('dev', ['check-dev', 'tsc-w', 'template', 'electron'], 'webpack-dev-server', (opt) => {
         kit.spawn('./node_modules/webpack-dev-server/bin/webpack-dev-server.js', [
             '--progress',
             '--hot',

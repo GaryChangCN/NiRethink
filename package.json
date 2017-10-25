@@ -4,7 +4,8 @@
     "description": "",
     "main": "main.js",
     "scripts": {
-        "dev": "no dev",
+        "dev": "no",
+        "no": "no",
         "build": "no build"
     },
     "keywords": [],
