@@ -175,6 +175,13 @@ class Tables extends React.Component<any, any> {
                             >
                             </button>
                         </Tooltip>
+                        <Tooltip content={l`Refresh`}>
+                            <button
+                                className="pt-button pt-small pt-icon-refresh fresh-button"
+                                onClick={() => table.handleCatelog(data.selectTableIndex, 'child')}
+                            >
+                            </button>
+                        </Tooltip>
                     </div>
                     <div className="top-center">
                         <div className="pt-button-group">
