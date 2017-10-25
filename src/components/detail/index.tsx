@@ -136,7 +136,7 @@ class Detail extends React.Component<any, any> {
         })
         const renderViewDetail = () => {
             const {dialog} = this.state
-            if (typeof dialog === 'object') {
+            if (typeof dialog === 'object' && !(dialog instanceof Date)) {
                 return <Editor
                         data={this.state.dialog}
                         rootName={false}
