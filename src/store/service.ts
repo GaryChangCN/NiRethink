@@ -48,116 +48,85 @@ class Service {
         if (this.disConn()) {
             return []
         }
-        try {
-            return await r.dbList().run(this.conn)
-        } catch (error) {
-            throw new Error(error)
-        }
+        return await r.dbList().run(this.conn)
     }
 
     async fetchTableList (dbName) {
         if (this.disConn()) {
             return []
         }
-        try {
-            return await r.db(dbName).tableList().run(this.conn)
-        } catch (error) {
-            throw new Error(error)
-        }
+        return await r.db(dbName).tableList().run(this.conn)
     }
 
     async fetchDetailList (dbName, tableName, skip = 0, limit = 20) {
         if (!dbName || !tableName || this.disConn()) {
             return []
         }
-        try {
-            const list: any[] = await (r.db(dbName)
-                .table(tableName).skip(skip)
-                .limit(limit) as any).coerceTo('array').run(this.conn)
-            return list
-        } catch (error) {
-            throw new Error(error)
-        }
+        const list: any[] = await (r.db(dbName)
+            .table(tableName).skip(skip)
+            .limit(limit) as any).coerceTo('array').run(this.conn)
+        return list
     }
 
     async fetchDetailTotal (dbName, tableName) {
         if (!dbName || !tableName || this.disConn()) {
             return 0
         }
-        try {
-            const total: number = await r.db(dbName).table(tableName).count().run(this.conn)
-            return total
-        } catch (error) {
-            throw new Error(error)
-        }
+        const total: number = await r.db(dbName).table(tableName).count().run(this.conn)
+        return total
     }
 
     async fetchDetailIndex (dbName, tableName) {
         if (!dbName || !tableName || this.disConn()) {
             return []
         }
-        try {
-            const list = await r.db(dbName).table(tableName).indexList().run(this.conn)
-            return list
-        } catch (error) {
-            throw new Error(error)
-        }
+        const list = await r.db(dbName).table(tableName).indexList().run(this.conn)
+        return list
     }
 
     async addDatabase (dbName) {
         if (!dbName || this.disConn()) {
             return null
         }
-        try {
-            await r.dbCreate(dbName).run(this.conn)
-        } catch (error) {
-            throw new Error(error)
-        }
+        await r.dbCreate(dbName).run(this.conn)
     }
 
     async dropDatabase (dbName) {
         if (!dbName || this.disConn()) {
             return null
         }
-        try {
-            await r.dbDrop(dbName).run(this.conn)
-        } catch (error) {
-            throw new Error(error)
-        }
+        await r.dbDrop(dbName).run(this.conn)
     }
 
     async addTable (dbName, tableName) {
         if (!dbName || !tableName || this.disConn()) {
             return []
         }
-        try {
-            await r.db(dbName).tableCreate(tableName).run(this.conn)
-        } catch (error) {
-            throw new Error(error)
-        }
+        await r.db(dbName).tableCreate(tableName).run(this.conn)
     }
 
     async dropTable (dbName, tableName) {
         if (!dbName || !tableName || this.disConn()) {
             return []
         }
-        try {
-            await r.db(dbName).tableDrop(tableName).run(this.conn)
-        } catch (error) {
-            throw new Error(error)
-        }
+        await r.db(dbName).tableDrop(tableName).run(this.conn)
     }
 
     async insertTable (dbName, tableName, data) {
         if (!dbName || !tableName || this.disConn()) {
             throw new Error(l`dbName and tableName is needed`)
         }
-        try {
-            await r.db(dbName).table(tableName).insert(data).run(this.conn)
-        } catch (error) {
-            throw new Error(error)
-        }
+        await r.db(dbName).table(tableName).insert(data).run(this.conn)
     }
+
+    async deleteRow (dbName, tableName, id) {
+        if (!dbName || !tableName || this.disConn()) {
+            throw new Error(l`dbName and tableName is needed`)
+        }
+        await r.db(dbName).table(tableName).get(id).delete().run(this.conn)
+    }
+
+
 
 }
 
