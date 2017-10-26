@@ -1,6 +1,7 @@
 import {observable, computed} from 'mobx'
 import * as _ from 'lodash'
 import l from '../lib/lang'
+import {NODE_ENV} from '../config'
 
 import service from './service'
 import app from './app'
@@ -41,8 +42,8 @@ class Table {
     async viewDbList () {
         const list = await service.fetchDbList()
         this.store.view.dbList = list
-        // console.log()
-        if (list.length > 0 && process.env.NODE_ENV === 'development') {
+        // console.log
+        if (list.length > 0 && NODE_ENV === 'development') {
             await this.handleCatelog(3)
             await this.handleCatelog(0, 'child')
         }
@@ -67,7 +68,7 @@ class Table {
         if (type === 'parent') {
             if (index === this.store.view.selectDbIndex) {
                 this.reset('parent')
-            }else {
+            } else {
                 this.reset('parent')
                 this.store.view.selectDbIndex = index
                 await this.viewTableList()
@@ -159,7 +160,7 @@ class Table {
                 intent: 'PRIMARY'
             })
             return
-        }else {
+        } else {
             const dbName = this.getDbName()
             const cb = async (msg) => {
                 if (!msg) {

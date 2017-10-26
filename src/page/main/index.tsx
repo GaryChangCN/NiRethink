@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Header from '../../components/header'
+import {NODE_ENV} from '../../config'
 
 import './main.less'
 
@@ -13,7 +14,7 @@ class Main extends React.Component<any, any> {
                 <div className="content-viewport">
                     {this.props.children}
                 </div>
-                {process.env.NODE_ENV === 'development' ?
+                {NODE_ENV === 'development' ?
                 <DevTools/> : ''}
             </div>
         )

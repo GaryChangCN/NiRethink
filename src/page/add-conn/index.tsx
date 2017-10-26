@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { observer } from 'mobx-react'
 import l from '../../lib/lang'
+import {NODE_ENV} from '../../config'
 
 import './add-conn.less'
 
@@ -9,8 +10,7 @@ import add from '../../store/add'
 @observer
 class AddConn extends React.Component<any, any> {
     componentDidMount () {
-        // consol.log
-        if (process.env.NODE_ENV === 'development') {
+        if (NODE_ENV === 'development') {
             setTimeout(function () {
                 add.add()
             }, 0)
