@@ -5,6 +5,7 @@ import {Tooltip, Position, NumericInput, Dialog, EditableText} from '@blueprintj
 import l from '../../lib/lang'
 import * as Pagenation from 'react-paginate'
 import Icon from '../../components/svg-icon'
+import history from '../../lib/history'
 
 import table from '../../store/table'
 import Detail from '../../components/detail'
@@ -31,6 +32,10 @@ class Tables extends React.Component<any, any> {
     componentDidMount () {
         const query = parseSearch(this.props.location.search)
         const {connectionName} = query
+        if (!connectionName) {
+            history.replace('/add-conn')
+            return
+        }
         table.change('connectionName', connectionName)
         table.viewDbList()
     }
@@ -38,6 +43,10 @@ class Tables extends React.Component<any, any> {
     async componentWillUpdate (nextProps) {
         const query = parseSearch(this.props.location.search)
         const nextQuery = parseSearch(nextProps.location.search)
+        if (!query.connectionName) {
+            history.replace('/add-conn')
+            return
+        }
         if (query.connectionName !== nextQuery.connectionName) {
             table.change('connectionName', nextQuery.connectionName)
         }
@@ -128,9 +137,6 @@ class Tables extends React.Component<any, any> {
                             </div>
                         </div>
                         <div className="box">
-                            <Tooltip content="Use javascript to query this table">
-                                <Icon type="terminal" className="terminal"/>
-                            </Tooltip>
                         </div>
                     </div>
                     <div className="page-container">

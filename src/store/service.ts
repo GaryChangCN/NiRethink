@@ -10,15 +10,16 @@ class Service {
 
     async add (view) {
         const data = _.cloneDeep(view)
+        data.user = data.username
         while (true) {
             if (this.collect.hasOwnProperty(data.connectionName)) {
                 data.connectionName = data.connectionName + '_'
-            }else {
+            } else {
                 break
             }
         }
-        const {connectionName, ...other} = data
-        this.collect[data.connectionName] = {...other}
+        const {connectionName, username, ...other} = data
+        this.collect[connectionName] = {...other}
         await this.connect(connectionName)
         return connectionName
     }
@@ -36,7 +37,6 @@ class Service {
 
     disConn () {
         if (!this.conn) {
-            console.log('------disconn------')
             history.push('/add-conn')
             app.toaster(`${l`connection is close`}.  ${l`please reconnect`}`, 'DANGER', 5000)
             return true

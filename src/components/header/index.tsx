@@ -1,9 +1,9 @@
 import * as React from 'react'
-import { Link } from 'react-router-dom'
 import { observer } from 'mobx-react'
-import {Alert, Intent} from '@blueprintjs/core'
+import {Alert, Intent, Tooltip, Position} from '@blueprintjs/core'
 import history from '../../lib/history'
 import l from '../../lib/lang'
+import ConnectionPanel from '../connection-panel'
 
 import './header.less'
 
@@ -12,15 +12,34 @@ import table from '../../store/table'
 
 @observer
 class Header extends React.Component<any, any> {
+    renderPanel () {
+        const name = table.store.connectionName
+        if (name) {
+            return (
+                <Tooltip
+                    content={l`Reconnect`}
+                    position={Position.RIGHT}
+                >
+                    <div
+                        className="panel"
+                        onClick={() => table.reconnect(name)}
+                    >
+                        {table.store.connectionName.slice(0, 1).toUpperCase()}
+                    </div>
+                </Tooltip>
+            )
+        }
+        return ''
+    }
     render () {
         return (
             <div className="header-container">
                 <nav className="pt-navbar pt-dark">
                     <div className="left">
-                        {table.store.connectionName.slice(0, 1).toUpperCase()}
+                        {this.renderPanel()}
                     </div>
-                    <div className="logo" onClick={() => {history.push('/')}}>
-                        NieRethink
+                    <div className="logo">
+                        NiRethink
                     </div>
                     <div className="right"></div>
                 </nav>

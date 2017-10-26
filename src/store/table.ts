@@ -15,16 +15,18 @@ class Table {
         indexList: {}
     }
 
+    private defaultView = {
+        dbList: [],
+        tableList: [],
+        selectDbIndex: '', // '' | number as  index
+        selectTableIndex: '',
+        detail: _.cloneDeep(this.defaultDetail)
+    }
+
     @observable
     store = {
         connectionName: '',
-        view: {
-            dbList: [],
-            tableList: [],
-            selectDbIndex: '', // '' | number as  index
-            selectTableIndex: '',
-            detail: _.cloneDeep(this.defaultDetail)
-        },
+        view: _.cloneDeep(this.defaultView)
     }
 
     private getDbName () {
@@ -37,6 +39,13 @@ class Table {
 
     change (path, value) {
         _.set(this.store, path, value)
+    }
+
+    async reconnect (connectionName) {
+        this.store.view = _.cloneDeep(this.defaultView)
+        await service.connect(connectionName)
+        await this.viewDbList()
+        app.toaster(l`Success`, 'SUCCESS')
     }
 
     async viewDbList () {
