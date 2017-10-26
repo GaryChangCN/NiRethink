@@ -236,7 +236,7 @@ class Tables extends React.Component<any, any> {
                             <button
                                 className="pt-button pt-small pt-icon-layout-hierarchy"
                                 onClick={() => table.listIndex()}
-                                disabled={isListEmpty && viewType === 'table'}
+                                disabled={isListEmpty || viewType !== 'table'}
                             ></button>
                         </Tooltip>
                     </div>

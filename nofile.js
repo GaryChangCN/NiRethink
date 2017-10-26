@@ -39,11 +39,15 @@ module.exports = (task, option) => {
         })
     }))
 
-    task('template', 'render-template', kit.async(function * () {
-        yield kit.exec('node ./config/template.js')
+    task('template-dev', 'render-template-dev', kit.async(function * () {
+        yield kit.exec('node ./config/template.js development')
     }))
 
-    task('dev', ['check-dev', 'tsc-w', 'template', 'electron'], 'webpack-dev-server', (opt) => {
+    task('template-prod', 'render-template-prod', kit.async(function * () {
+        yield kit.exec('node ./config/template.js production')
+    }))
+
+    task('dev', ['check-dev', 'tsc-w', 'template-dev', 'electron'], 'webpack-dev-server', (opt) => {
         kit.spawn('./node_modules/webpack-dev-server/bin/webpack-dev-server.js', [
             '--progress',
             '--hot',
@@ -56,11 +60,11 @@ module.exports = (task, option) => {
         })
     })
 
-    task('electron', 'electron', () => {
-        kit.spawn('./node_modules/electron/cli.js', ['.'], {prefix: 'Electron | :blue'})
+    task('electron', 'open electron in dev model', () => {
+        kit.spawn('./node_modules/electron/cli.js', ['.', 'development'], {prefix: 'Electron | :blue'})
     })
 
-    task('build', ['tsc-p'], 'build', kit.async(function * (opt) {
+    task('build', ['tsc-p', 'template-prod'], 'build', kit.async(function * (opt) {
         const config = opt.config || 'prod'
         kit.log(`\n>>>>>>>> build >>>>>>>>>>>\n`)
         yield kit.spawn('./node_modules/webpack/bin/webpack.js', [
@@ -70,5 +74,6 @@ module.exports = (task, option) => {
         ], {
             prefix: 'BUILD | :black'
         })
+        yield kit.spawn('./node_modules/electron/cli.js', ['.', 'production'], {prefix: 'Electron | :blue'})
     }))
 }

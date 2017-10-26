@@ -1,9 +1,10 @@
 const fs = require('fs')
 const path = require('path')
 
-const env = process.env.NODE_ENV || 'development'
+const env = process.argv[2] || 'development'
 
-let scripts
+let scripts = []
+let styles = []
 
 if (env === 'development') {
     scripts = [
@@ -14,6 +15,9 @@ if (env === 'development') {
 if (env === 'production') {
     scripts = [
         '<script src="./bundle.js"></script>'
+    ]
+    styles = [
+        '<link rel="stylesheet" href="./styles.css">'
     ]
 }
 
@@ -26,6 +30,7 @@ let template = `
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>NiRethink</title>
+    ${styles.join('\n')}
 </head>
 <body>
     <div id="app"></div>

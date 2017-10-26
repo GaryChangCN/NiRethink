@@ -42,7 +42,7 @@ class Table {
         const list = await service.fetchDbList()
         this.store.view.dbList = list
         // console.log()
-        if (list.length > 0) {
+        if (list.length > 0 && process.env.NODE_ENV === 'development') {
             await this.handleCatelog(3)
             await this.handleCatelog(0, 'child')
         }

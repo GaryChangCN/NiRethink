@@ -1,6 +1,7 @@
 const webpack = require('webpack')
 const path = require('path')
 const fs = require('fs')
+const ExtractTextPlugin = require("extract-text-webpack-plugin")
 
 const nodeModules = {}
 fs.readdirSync('node_modules').filter(x => {
@@ -38,10 +39,13 @@ module.exports = {
             ]
         }, {
             test: /\.css$/,
-            use: ["style-loader", "css-loader"]
+            use: ExtractTextPlugin.extract({
+                fallback: "style-loader",
+                use: "css-loader"
+            })
         }, {
             test: /\.(eot|svg|ttf|woff|woff2|gif)$/,
-            use: ['file-loader?name=assets/[name][sha512:hash:base64:7].[ext]&publicPath=dist/']
+            use: ['file-loader?name=assets/[name][sha512:hash:base64:7].[ext]&publicPath=./']
         }]
     },
     resolve: {
@@ -53,6 +57,7 @@ module.exports = {
                 NODE_ENV: JSON.stringify('production')
             }
         }),
-        new webpack.optimize.UglifyJsPlugin()
+        new webpack.optimize.UglifyJsPlugin(),
+        new ExtractTextPlugin("styles.css")
     ]
 }

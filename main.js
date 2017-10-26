@@ -4,18 +4,18 @@ const url = require('url')
 
 let win
 
-
+const env = process.argv[2] || 'development'
 
 function createWindow () {
   win = new BrowserWindow({width: 1800, height: 1000})
   win.loadURL(url.format({
-    pathname: path.join(__dirname, 'dist/index.html'),
+    pathname: path.join(__dirname, './dist/index.html'),
     protocol: 'file:',
     slashes: true
   }))
 
   // Open the DevTools.
-  win.webContents.openDevTools()
+  env === 'development' && win.webContents.openDevTools()
 
   // Emitted when the window is closed.
   win.on('closed', () => {

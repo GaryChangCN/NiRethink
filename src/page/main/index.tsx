@@ -13,7 +13,8 @@ class Main extends React.Component<any, any> {
                 <div className="content-viewport">
                     {this.props.children}
                 </div>
-                <DevTools/>
+                {process.env.NODE_ENV === 'development' ?
+                <DevTools/> : ''}
             </div>
         )
     }

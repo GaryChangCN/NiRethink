@@ -114,6 +114,11 @@ class Detail extends React.Component<any, any> {
                             content={this.renderPopver()}
                             position={i === 0 ? Position.BOTTOM : Position.TOP}
                             isOpen={this.state.toolIndex === i}
+                            onClose={() => {
+                                this.setState({
+                                    toolIndex: -1
+                                })
+                            }}
                         >
                             <Tooltip content={l`Show Toolbox`}>
                                 <button
