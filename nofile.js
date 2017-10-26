@@ -1,6 +1,8 @@
 const kit = require('nokit')
 
 module.exports = (task, option) => {
+    option('-p, --platform <darwin | windows>', 'package for platform')
+
     task('default', ['dev'], 'default task', () => {
         kit.log('\n>>>>>>> start >>>>>>>\n')
     })
@@ -47,7 +49,7 @@ module.exports = (task, option) => {
         yield kit.exec('node ./config/template.js production')
     }))
 
-    task('dev', ['check-dev', 'tsc-w', 'template-dev', 'electron'], 'webpack-dev-server', (opt) => {
+    task('dev', ['check-dev', 'tsc-w', 'template-dev', 'electron'], 'run in development', (opt) => {
         kit.spawn('./node_modules/webpack-dev-server/bin/webpack-dev-server.js', [
             '--progress',
             '--hot',
@@ -64,7 +66,7 @@ module.exports = (task, option) => {
         kit.spawn('./node_modules/electron/cli.js', ['.', 'development'], {prefix: 'Electron | :blue'})
     })
 
-    task('build', ['tsc-p', 'template-prod'], 'build', kit.async(function * (opt) {
+    task('build', ['tsc-p', 'template-prod'], 'build app', kit.async(function * (opt) {
         const config = opt.config || 'prod'
         kit.log(`\n>>>>>>>> build >>>>>>>>>>>\n`)
         yield kit.spawn('./node_modules/webpack/bin/webpack.js', [
@@ -74,6 +76,23 @@ module.exports = (task, option) => {
         ], {
             prefix: 'BUILD | :black'
         })
+    }))
+
+    task('production', ['build'], 'run in production', kit.async(function * () {
+        kit.log(`\n>>>>>>>> start electron >>>>>>>>>>>\n`)
         yield kit.spawn('./node_modules/electron/cli.js', ['.', 'production'], {prefix: 'Electron | :blue'})
+    }))
+
+    task('package', ['build'], 'package to app', kit.async(function * (opt) {
+        const platform = opt.platform || 'darwin'
+        kit.log(`\n>>>>>>>> package >>>>>>>>>>>\n`)
+        yield kit.spawn('./node_modules/electron-packager/cli.js', [
+            '.',
+            'NiRethink',
+            '--platform',
+            platform,
+            '--out',
+            './build'
+        ])
     }))
 }

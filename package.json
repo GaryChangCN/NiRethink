@@ -6,8 +6,10 @@
     "scripts": {
         "dev": "no",
         "no": "no",
-        "build": "no build"
+        "build": "no build",
+        "package": "no package"
     },
+    "productName": "NiRethink",
     "keywords": [],
     "author": "gary",
     "license": "MIT",
@@ -32,7 +34,7 @@
         "cross-env": "5.0.5",
         "css-loader": "0.28.5",
         "electron": "~1.6.2",
-        "electron-packager": "^8.6.0",
+        "electron-packager": "^8.7.2",
         "electron-winstaller": "^2.2.0",
         "extract-text-webpack-plugin": "^3.0.2",
         "file-loader": "^1.1.5",
