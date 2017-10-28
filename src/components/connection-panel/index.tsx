@@ -1,11 +1,59 @@
 import * as React from 'react'
 import './connection-panel.less'
+import service from '../../store/service'
+import { observer } from 'mobx-react'
+import {Tooltip} from '@blueprintjs/core'
+import l from '../../lib/lang'
+import history from '../../lib/history'
 
+@observer
 class ConnectionPanel extends React.Component<any, any> {
+    static defaultProps = {
+        using: '',
+        onClosePanel: () => null
+    }
+    handleAdd () {
+        this.props.onClosePanel()
+        history.replace('/add-conn')
+    }
+    handleSelect (name) {
+        const {using} = this.props
+        if (using !== name) {
+            this.props.onClosePanel()
+            history.replace(`/table?connectionName=${name}`)
+        }
+    }
     render () {
+        const collList = Array.from(service.collect.keys())
+        const {using} = this.props
         return (
             <div className="connection-panel">
-                muliti connection select
+                <div className="content">
+                    {collList.map((item, i) => {
+                        return (
+                            <Tooltip content={l`Use this connection`} key={i}>
+                                <div className={`item`}>
+                                    <div
+                                        className={`slice ${using === item ? 'slice-select' : ''}`}
+                                        onClick={this.handleSelect.bind(this, item)}
+                                    >
+                                        {item.slice(0, 1).toUpperCase()}
+                                    </div>
+                                    <div className="name">
+                                        {item}
+                                    </div>
+                                </div>
+                            </Tooltip>
+                        )
+                    })}
+                    <Tooltip content={l`Add new connection`} key={-1}>
+                        <div className="item item-add">
+                            <div className="slice" onClick={this.handleAdd.bind(this)}>
+                                +
+                            </div>
+                        </div>
+                    </Tooltip>
+                </div>
             </div>
         )
     }

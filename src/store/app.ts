@@ -77,9 +77,9 @@ const handle = (err) => {
     let message
     if (err.type === 'unhandledrejection') {
         message = _.get(err, 'reason.message', JSON.stringify(err))
-    }else if (err.type === 'error') {
+    } else if (err.type === 'error') {
         message = _.get(err, 'error.message', JSON.stringify(err))
-    }else {
+    } else {
         message = JSON.stringify(err)
     }
     app.toaster(message, 'DANGER')

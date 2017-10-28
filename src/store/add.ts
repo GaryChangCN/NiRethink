@@ -8,7 +8,7 @@ import app from './app'
 
 class Add {
     private defaultView = {
-        connectionName: 'new connect',
+        connectionName: 'newConnect',
         address: '127.0.0.1',
         port: '28015',
         username: 'admin',
@@ -26,6 +26,7 @@ class Add {
 
     async add () {
         const connectionName = await service.add(this.store.view)
+        this.store.view = _.cloneDeep(this.defaultView)
         if (connectionName) {
             app.toaster(l`Success`, 'SUCCESS')
             history.replace('/table?connectionName=' + connectionName)

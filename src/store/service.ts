@@ -3,29 +3,31 @@ import * as _ from 'lodash'
 import history from '../lib/history'
 import app from './app'
 import l from '../lib/lang'
+import {observable, extendObservable} from 'mobx'
 
 class Service {
     conn = null
-    collect = {}
+
+    @observable
+    collect = new Map()
 
     async add (view) {
         const data = _.cloneDeep(view)
         data.user = data.username
         while (true) {
-            if (this.collect.hasOwnProperty(data.connectionName)) {
+            if (this.collect.has(data.connectionName)) {
                 data.connectionName = data.connectionName + '_'
             } else {
                 break
             }
         }
         const {connectionName, username, ...other} = data
-        this.collect[connectionName] = {...other}
-        await this.connect(connectionName)
+        this.collect.set(connectionName, {...other})
         return connectionName
     }
 
     async connect (connectionName) {
-        const data = this.collect[connectionName]
+        const data = this.collect.get(connectionName)
         try {
             const conn = await r.connect(data)
             this.conn = conn
@@ -33,6 +35,13 @@ class Service {
         } catch (error) {
             throw error
         }
+    }
+
+    async close () {
+        if (!this.conn) {
+            return
+        }
+        await this.conn.close()
     }
 
     disConn () {

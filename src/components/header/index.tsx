@@ -12,32 +12,64 @@ import table from '../../store/table'
 
 @observer
 class Header extends React.Component<any, any> {
-    renderPanel () {
+    constructor (props) {
+        super (props)
+        this.state = {
+            showPanel: false
+        }
+    }
+    renderControl () {
         const name = table.store.connectionName
-        if (name) {
-            return (
+        const {showPanel} = this.state
+        if (!name) {
+            return <div className="left"></div>
+        }
+        return (
+            <div className="left left-full">
                 <Tooltip
                     content={l`Reconnect`}
                     position={Position.RIGHT}
                 >
                     <div
-                        className="panel"
+                        className="refresh-conn"
                         onClick={() => table.reconnect(name)}
                     >
-                        {table.store.connectionName.slice(0, 1).toUpperCase()}
+                        {name.slice(0, 1).toUpperCase()}
                     </div>
                 </Tooltip>
-            )
-        }
-        return ''
+                <div className="panel-container">
+                    <Tooltip
+                        content={l`Change Connection`}
+                        position={Position.RIGHT}
+                    >
+                        <div
+                            className="change-conn"
+                            onClick={() => this.setState({
+                                showPanel: !showPanel
+                            })}
+                        >
+                            <span
+                                className={`pt-icon-standard pt-icon-caret-down ${showPanel ? 'close' : ''}`}
+                            ></span>
+                        </div>
+                    </Tooltip>
+                    {showPanel && <ConnectionPanel
+                        using={name}
+                        onClosePanel={() => {
+                            this.setState({
+                                showPanel: false
+                            })
+                        }}
+                    />}
+                </div>
+            </div>
+        )
     }
     render () {
         return (
             <div className="header-container">
                 <nav className="pt-navbar pt-dark">
-                    <div className="left">
-                        {this.renderPanel()}
-                    </div>
+                    {this.renderControl()}
                     <div className="logo">
                         NiRethink
                     </div>
@@ -80,4 +112,4 @@ class Header extends React.Component<any, any> {
     }
 }
 
-export default () => <Header/>
+export default Header

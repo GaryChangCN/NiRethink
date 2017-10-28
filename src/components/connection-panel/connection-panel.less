@@ -1,0 +1,66 @@
+.connection-panel {
+    position: absolute;
+    left: -2px;
+    top: 60px;
+    .content {
+        &::before {
+            display: block;
+            position: absolute;
+            border-width: 5px;
+            border-bottom-width: 8px;
+            border-style: solid;
+            border-color: transparent;
+            border-bottom-color: #394b59;
+            content: "";
+            left: 6px;
+            top: -13px;
+        }
+        position: relative;
+        width: 400px;
+        background: #394b59;
+        box-shadow: inset 0 0 0 1px rgba(16, 22, 26, 0.2), 0 0 0 rgba(16, 22, 26, 0), 0 1px 1px rgba(16, 22, 26, 0.4);
+        padding: 15px;
+        display: flex;
+        flex-wrap: wrap;
+        border-radius: 3px;
+        .item {
+            display: flex;
+            width: 70px;
+            flex-direction: column;
+            align-items: center;
+            margin: 10px 25px;
+            .slice {
+                height: 70px;
+                width: 70px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border: 1px solid #293742;
+                cursor: pointer;
+                font-size: 16px;
+                font-weight: 600;
+                border-radius: 3px;
+                &:hover {
+                    background: #30404D;
+                }
+                &:active {
+                    background: #293742;
+                }
+            }
+            .slice-select {
+                background: #30404D;
+            }
+            .name {
+                width: 70px;
+                word-break: break-all;
+                margin-top: 5px;
+            }
+        }
+        .item-add {
+            .slice {
+                font-size: 25px;
+                color: #CED9E0;
+            }
+        }
+    }
+}

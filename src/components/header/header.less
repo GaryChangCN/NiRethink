@@ -3,20 +3,18 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        .left {
+        .left-full {
             width: 250px;
+        }
+        .left {
             display: flex;
             height: 50px;
             align-items: center;
-            .panel {
-                width: 40px;
+            .refresh-conn, .change-conn {
                 height: 40px;
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                font-size: 16px;
-                font-weight: 600;
-                border-radius: 3px;
                 border: 1px solid #293742;
                 cursor: pointer;
                 &:hover {
@@ -24,6 +22,29 @@
                 }
                 &:active {
                     background: #293742;
+                }
+            }
+            .refresh-conn {
+                width: 40px;
+                font-size: 16px;
+                font-weight: 600;
+                border-radius: 3px 0px 0px 3px;
+                border-right: 0;
+                
+            }
+            .panel-container {
+                position: relative;
+                .change-conn {
+                    width: 20px;
+                    border-radius: 0px 3px 3px 0px;
+                    font-size: 10px;
+                    outline: none;
+                    span {
+                        transition: transform .2s;
+                    }
+                    .close {
+                        transform: rotate(180deg);
+                    }
                 }
             }
         }

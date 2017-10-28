@@ -49,16 +49,22 @@ class Table {
     }
 
     async viewDbList () {
+        this.reset('db')
         const list = await service.fetchDbList()
         this.store.view.dbList = list
-        // console.log
-        if (list.length > 0 && NODE_ENV === 'development') {
-            await this.handleCatelog(3)
-            await this.handleCatelog(0, 'child')
-        }
+        // TODO: remove
+        // if (list.length > 0 && NODE_ENV === 'development') {
+        //     await this.handleCatelog(3)
+        //     await this.handleCatelog(0, 'child')
+        // }
     }
 
     reset (type) {
+        if (type === 'db') {
+            this.store.view.dbList = []
+            this.store.view.selectDbIndex = ''
+            this.reset('parent')
+        }
         if (type === 'parent') {
             this.store.view.tableList = []
             this.store.view.selectDbIndex = ''
@@ -68,6 +74,7 @@ class Table {
         if (type === 'child') {
             this.store.view.selectTableIndex = ''
             this.store.view.detail = _.cloneDeep(this.defaultDetail)
+            return
         }
     }
 
