@@ -52,11 +52,6 @@ class Table {
         this.reset('db')
         const list = await service.fetchDbList()
         this.store.view.dbList = list
-        // TODO: remove
-        // if (list.length > 0 && NODE_ENV === 'development') {
-        //     await this.handleCatelog(3)
-        //     await this.handleCatelog(0, 'child')
-        // }
     }
 
     reset (type) {

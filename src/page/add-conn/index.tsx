@@ -9,12 +9,7 @@ import add from '../../store/add'
 
 @observer
 class AddConn extends React.Component<any, any> {
-    componentDidMount () {
-        // TODO: remove
-        // if (NODE_ENV === 'development') {
-        //     add.add()
-        // }
-    }
+
     render () {
         const data = add.store.view
         return (
