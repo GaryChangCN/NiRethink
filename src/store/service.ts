@@ -123,7 +123,7 @@ class Service {
         if (!dbName || !tableName || this.disConn()) {
             throw new Error(l`dbName and tableName is needed`)
         }
-        await r.db(dbName).table(tableName).get(id).delete().run(this.conn)
+        await (r.db(dbName).table(tableName).get(id) as any).delete().run(this.conn)
     }
 
     async editRow (dbName, tableName, data) {
@@ -134,7 +134,7 @@ class Service {
         if (!id) {
             throw new Error('edit row need id')
         }
-        await r.db(dbName).table(tableName).get(id).update({...other}).run(this.conn)
+        await (r.db(dbName).table(tableName).get(id) as any).update({...other}).run(this.conn)
     }
 
 }
