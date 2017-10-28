@@ -32,7 +32,12 @@
 
 ![multi-conn](http://oyjfljgue.bkt.clouddn.com/ni8.png?imageView2/0/format/webp/q/75|imageslim)
 
-## development
+## Todo
+
+* Windows download support (you can package it now by yourself :) )
+* Remove connection and save connect information
+
+## Develop
 
 ```bash
     npm install // or yarn
