@@ -1,6 +1,6 @@
 ## NiRethink
 
-![NiRthink](http://oyjfljgue.bkt.clouddn.com/nirethink.png)
+<p align="center"><a href="javascript:void(0)"><img width="100"src="http://oyjfljgue.bkt.clouddn.com/nirethink.png"></a></p>
 
 RethinkDB client
 
