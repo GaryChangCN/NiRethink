@@ -155,7 +155,7 @@ class Table {
                 if (!msg) {
                     app.toaster(l`Database name should't be empty`, 'DANGER', 5000)
                     return
-                }else {
+                } else {
                     await service.addDatabase(msg)
                     app.togglePrompt()
                     await this.viewDbList()
@@ -175,7 +175,7 @@ class Table {
                 if (!msg) {
                     app.toaster(l`Table name should't be empty`, 'DANGER', 5000)
                     return
-                }else {
+                } else {
                     if (!/^[A-Za-z0-9_]+$/.test(msg)) {
                         app.toaster(l`Table name A-Za-z0-9_ only`, 'DANGER', 5000)
                         return
@@ -213,13 +213,13 @@ class Table {
                 intent: 'DANGER'
             })
             return
-        }else {
+        } else {
             // drop database
             const cb = async () => {
                 await service.dropDatabase(dbName)
                 app.toggleConfirm()
                 await this.viewDbList()
-                app.toaster(l`Success`)
+                app.toaster(l`Success`, 'SUCCESS')
             }
             app.toggleConfirm({
                 msg: l`DELELE database` + ': ' + dbName + '?',
@@ -272,6 +272,27 @@ class Table {
         this.handleCatelog(this.store.view.selectTableIndex, 'child')
         app.toaster(l`Success`, 'SUCCESS')
         return true
+    }
+
+    async clearTable () {
+        const dbName = this.getDbName()
+        const tableName = this.getTableName()
+        const cb = async () => {
+            await service.clearTable(dbName, tableName)
+            app.toggleConfirm()
+            await this.handleCatelog(this.store.view.selectTableIndex, 'child')
+            app.toaster(l`Success`, 'SUCCESS')
+        }
+        app.toggleConfirm({
+            msg: `${l`Are you sure to CLEAR this table`}?
+            ${l`If you want drop this table`},
+            ${l`Click the drop button in the catelog`}.
+            ${l`If you want delete a row`},\n
+            ${l`Use tools is the left of each row`}.`,
+            callBack: cb,
+            intent: 'DANGER'
+        })
+        return
     }
 }
 

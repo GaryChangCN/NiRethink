@@ -126,6 +126,13 @@ class Service {
         await (r.db(dbName).table(tableName).get(id) as any).delete().run(this.conn)
     }
 
+    async clearTable (dbName, tableName) {
+        if (!dbName || !tableName || this.disConn()) {
+            throw new Error(l`dbName and tableName is needed`)
+        }
+        await r.db(dbName).table(tableName).delete().run(this.conn)
+    }
+
     async editRow (dbName, tableName, data) {
         if (!dbName || !tableName || this.disConn()) {
             throw new Error(l`dbName and tableName is needed`)

@@ -197,17 +197,25 @@ class Tables extends React.Component<any, any> {
             return (
                 <div className="top">
                     <div className="top-left">
-                        <Tooltip content={l`Add new row`} position={Position.BOTTOM}>
+                        <Tooltip content={l`Add row`} position={Position.BOTTOM}>
                             <button
                                 className="pt-button pt-small pt-icon-plus"
                                 onClick={() => this.toggleDialog(true, '', 'add')}
                             >
                             </button>
                         </Tooltip>
-                        <Tooltip content={l`Refresh`}>
+                        <Tooltip content={l`Refresh table`} position={Position.BOTTOM}>
                             <button
                                 className="pt-button pt-small pt-icon-refresh fresh-button"
                                 onClick={() => table.handleCatelog(data.selectTableIndex, 'child')}
+                            >
+                            </button>
+                        </Tooltip>
+                        <Tooltip content={l`Clear table`} position={Position.BOTTOM}>
+                            <button
+                                className="pt-button pt-small pt-icon-delete"
+                                onClick={() => table.clearTable()}
+                                disabled={isListEmpty}
                             >
                             </button>
                         </Tooltip>
