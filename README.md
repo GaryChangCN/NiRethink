@@ -40,14 +40,14 @@
 ## Develop
 
 ```bash
-    npm install // or yarn
+    npm install // or yarn add
     npm run no
 ```
 
 production
 
 ```bash
-    npm install // or yarn
+    npm install // or yarn add
     npm run prod
 ```
 
