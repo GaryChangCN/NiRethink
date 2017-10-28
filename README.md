@@ -1,3 +1,9 @@
+## NiRethink
+
+![NiRthink](http://oyjfljgue.bkt.clouddn.com/nirethink.png)
+
+RethinkDB client
+
 ## Download
 
 [download page](https://github.com/GaryChangCN/NiRethink/releases)
