@@ -9,6 +9,7 @@ import './header.less'
 
 import app from '../../store/app'
 import table from '../../store/table'
+import service from '../../store/service'
 
 @observer
 class Header extends React.Component<any, any> {
@@ -20,13 +21,14 @@ class Header extends React.Component<any, any> {
     }
     renderControl () {
         const name = table.store.connectionName
+        const collList = Array.from(service.collect.keys())
         const {showPanel} = this.state
-        if (!name) {
+        if (collList.length === 0) {
             return <div className="left"></div>
         }
         return (
             <div className="left left-full">
-                <Tooltip
+                {name ? <Tooltip
                     content={l`Reconnect`}
                     position={Position.RIGHT}
                 >
@@ -36,7 +38,9 @@ class Header extends React.Component<any, any> {
                     >
                         {name.slice(0, 1).toUpperCase()}
                     </div>
-                </Tooltip>
+                </Tooltip> : <div
+                        className="refresh-conn refresh-disabled"
+                    >∅</div>}
                 <div className="panel-container">
                     <Tooltip
                         content={l`Change Connection`}
@@ -55,6 +59,7 @@ class Header extends React.Component<any, any> {
                     </Tooltip>
                     {showPanel && <ConnectionPanel
                         using={name}
+                        collList={collList}
                         onClosePanel={() => {
                             this.setState({
                                 showPanel: false

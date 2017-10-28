@@ -1,16 +1,15 @@
 import * as React from 'react'
 import './connection-panel.less'
-import service from '../../store/service'
-import { observer } from 'mobx-react'
+
 import {Tooltip} from '@blueprintjs/core'
 import l from '../../lib/lang'
 import history from '../../lib/history'
 
-@observer
 class ConnectionPanel extends React.Component<any, any> {
     static defaultProps = {
         using: '',
-        onClosePanel: () => null
+        onClosePanel: () => null,
+        collList: []
     }
     handleAdd () {
         this.props.onClosePanel()
@@ -24,8 +23,7 @@ class ConnectionPanel extends React.Component<any, any> {
         }
     }
     render () {
-        const collList = Array.from(service.collect.keys())
-        const {using} = this.props
+        const {using, collList} = this.props
         return (
             <div className="connection-panel">
                 <div className="content">
