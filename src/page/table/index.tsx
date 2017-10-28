@@ -37,13 +37,18 @@ class Tables extends React.Component<any, any> {
             history.replace('/add-conn')
             return
         }
-        await service.connect(connectionName)
+        const ret = await service.connect(connectionName)
+        if (!ret) {
+            history.replace('/add-conn')
+            return
+        }
         table.change('connectionName', connectionName)
         table.viewDbList()
     }
 
-    componentWillUnmount () {
+    async componentWillUnmount () {
         table.change('connectionName', '')
+        await service.close()
     }
 
     async componentWillUpdate (nextProps) {

@@ -26,6 +26,10 @@ class Add {
 
     async add () {
         const connectionName = await service.add(this.store.view)
+        if (!connectionName) {
+            app.toaster(l`connectionName already exists`, 'WARNING', 5000)
+            return
+        }
         this.store.view = _.cloneDeep(this.defaultView)
         if (connectionName) {
             app.toaster(l`Success`, 'SUCCESS')

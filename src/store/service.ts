@@ -14,12 +14,8 @@ class Service {
     async add (view) {
         const data = _.cloneDeep(view)
         data.user = data.username
-        while (true) {
-            if (this.collect.has(data.connectionName)) {
-                data.connectionName = data.connectionName + '_'
-            } else {
-                break
-            }
+        if (this.collect.has(data.connectionName)) {
+            return false
         }
         const {connectionName, username, ...other} = data
         this.collect.set(connectionName, {...other})
@@ -28,10 +24,14 @@ class Service {
 
     async connect (connectionName) {
         const data = this.collect.get(connectionName)
+        if (!data) {
+            history.replace('/add-conn')
+            return false
+        }
         try {
             const conn = await r.connect(data)
             this.conn = conn
-            return
+            return true
         } catch (error) {
             throw error
         }
