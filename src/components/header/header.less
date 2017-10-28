@@ -82,3 +82,39 @@
         width: 100%;
     }
 }
+
+.about-pop {
+    position: relative;
+    top: 80px;
+    .pt-popover-arrow {
+        position: absolute;
+        top: 17px!important;
+    }
+    .about-container {
+        display: flex;
+        padding: 15px 0px;
+        border-radius: 3px;
+        flex-direction: column;
+        .line {
+            width: 100%;
+            padding: 0 15px;
+            &:hover {
+                .content {
+                    text-decoration: underline;
+                }
+            }
+            .content {
+                height: 40px;
+                width: 150px;
+                width: 100%;
+                display: flex;
+                cursor: pointer;
+                align-items: center;
+                border-bottom: 1px solid #EBF1F5;
+                &:last-child {
+                    border-bottom: 0px;
+                }
+            }
+        }
+    }
+}

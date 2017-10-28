@@ -9,6 +9,10 @@
         "build": "no build",
         "package": "no package"
     },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/GaryChangCN/NiRethink"
+    },
     "productName": "NiRethink",
     "keywords": [],
     "author": "gary",

@@ -66,7 +66,7 @@ module.exports = (task, option) => {
         kit.spawn('./node_modules/electron/cli.js', ['.', 'development'], {prefix: 'Electron | :blue'})
     })
 
-    task('build', ['tsc-p', 'template-prod'], 'build app', kit.async(function * (opt) {
+    task('build', ['tsc-p', 'template-prod'], 'build app to dist', kit.async(function * (opt) {
         const config = opt.config || 'prod'
         kit.log(`\n>>>>>>>> build >>>>>>>>>>>\n`)
         yield kit.spawn('./node_modules/webpack/bin/webpack.js', [
@@ -83,7 +83,7 @@ module.exports = (task, option) => {
         yield kit.spawn('./node_modules/electron/cli.js', ['.', 'production'], {prefix: 'Electron | :blue'})
     }))
 
-    task('package', ['build'], 'package to app', kit.async(function * (opt) {
+    task('package', ['build'], 'package to macos app', kit.async(function * (opt) {
         const platform = opt.platform || 'darwin'
         kit.log(`\n>>>>>>>> package >>>>>>>>>>>\n`)
         yield kit.spawn('./node_modules/electron-packager/cli.js', [
@@ -92,7 +92,10 @@ module.exports = (task, option) => {
             '--platform',
             platform,
             '--out',
-            './build'
+            './build',
+            '--icon',
+            './src/assets/nirethink.icns',
+            '--overwrite'
         ])
     }))
 }

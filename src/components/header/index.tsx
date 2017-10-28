@@ -1,9 +1,10 @@
 import * as React from 'react'
 import { observer } from 'mobx-react'
-import {Alert, Intent, Tooltip, Position} from '@blueprintjs/core'
+import {Alert, Intent, Tooltip, Position, Popover} from '@blueprintjs/core'
 import history from '../../lib/history'
 import l from '../../lib/lang'
 import ConnectionPanel from '../connection-panel'
+import {shell} from 'electron'
 
 import './header.less'
 
@@ -16,7 +17,8 @@ class Header extends React.Component<any, any> {
     constructor (props) {
         super (props)
         this.state = {
-            showPanel: false
+            showPanel: false,
+            showAbout: false
         }
     }
     renderControl () {
@@ -70,6 +72,33 @@ class Header extends React.Component<any, any> {
             </div>
         )
     }
+
+    renderAbout () {
+        return (
+            <div className="about-container">
+                <div className="line" onClick = {() => {
+                    shell.openExternal('https://github.com/GaryChangCN/NiRethink')
+                }}>
+                    <div className="content">Github Repository</div>
+                </div>
+                <div className="line" onClick = {() => {
+                    shell.openExternal('https://github.com/GaryChangCN/NiRethink/issues')
+                }}>
+                    <div className="content">Issue</div>
+                </div>
+                <div className="line" onClick = {() => {
+                    shell.openExternal('https://github.com/GaryChangCN/NiRethink/releases')
+                }}>
+                    <div className="content">Download new version</div>
+                </div>
+                <div className="line" onClick = {() => {
+                    shell.openExternal('https://github.com/GaryChangCN/NiRethink/blob/master/LICENSE')
+                }}>
+                    <div className="content">Open source license</div>
+                </div>
+            </div>
+        )
+    }
     render () {
         return (
             <div className="header-container">
@@ -78,7 +107,29 @@ class Header extends React.Component<any, any> {
                     <div className="logo">
                         NiRethink
                     </div>
-                    <div className="right"></div>
+                    <div className="right">
+                        <Popover
+                            popoverClassName="about-pop"
+                            content={this.renderAbout()}
+                            position={Position.LEFT}
+                            isOpen={this.state.showAbout}
+                            inheritDarkTheme={false}
+                            onClose={() => {
+                                this.setState({
+                                    showAbout: false
+                                })
+                            }}
+                        >
+                            <span
+                                onClick = {() => {
+                                    this.setState({
+                                        showAbout: true
+                                    })
+                                }}
+                                className="pt-icon-standard pt-icon-issue"
+                            ></span>
+                        </Popover>
+                    </div>
                 </nav>
                 <Alert
                     isOpen={!!app.store.prompt.msg}

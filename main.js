@@ -1,53 +1,42 @@
-const {app, BrowserWindow, webFrame} = require('electron')
+const {app, BrowserWindow, webFrame, Menu, shell} = require('electron')
 const path = require('path')
 const url = require('url')
 
+
+
 let win
 
-const env = process.argv[2] || 'development'
-
 function createWindow () {
-  win = new BrowserWindow({width: 1800, height: 1000})
-  win.loadURL(url.format({
-    pathname: path.join(__dirname, './dist/index.html'),
-    protocol: 'file:',
-    slashes: true
-  }))
+    win = new BrowserWindow({
+        width: 1600,
+        height: 1000,
+        minWidth: 1000,
+        minHeight: 600,
+        icon: path.join(__dirname, './src/assets/nirethink.icns')
+    })
+    win.loadURL(url.format({
+        pathname: path.join(__dirname, './dist/index.html'),
+        protocol: 'file:',
+        slashes: true
+    }))
 
-  // Open the DevTools.
-  env === 'development' && win.webContents.openDevTools()
-
-  // Emitted when the window is closed.
-  win.on('closed', () => {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    win = null
-  })
+    win.on('closed', () => {
+        win = null
+    })
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
 app.on('ready', createWindow)
 
 app.commandLine.appendSwitch('--enable-viewport-meta', 'true')
-// Quit when all windows are closed.
 app.on('window-all-closed', () => {
-  // On macOS it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
+    if (process.platform !== 'darwin') {
+        app.quit()
+    }
 })
 
 app.on('activate', () => {
-  // On macOS it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (win === null) {
-    createWindow()
-  }
+    if (win === null) {
+        createWindow()
+    }
 })
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.🚫
