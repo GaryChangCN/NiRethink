@@ -31,14 +31,21 @@ class Detail extends React.Component<any, any> {
             const union = _.union(head, keyList)
             head = union
         })
-        return head
+        const ret = []
+        head.forEach(item => {
+            if (item === 'id') {
+                ret.unshift('id')
+            }
+            ret.push(item)
+        })
+        return ret
     }
 
     handleDialog (dialog = '') {
         const state: any = {dialog}
         if (dialog) {
             state.showDialog = true
-        }else {
+        } else {
             state.showDialog = false
         }
         this.setState(state)
@@ -171,7 +178,7 @@ class Detail extends React.Component<any, any> {
             const {dialog} = this.state
             if (typeof dialog === 'object' && !(dialog instanceof Date)) {
                 return <Editor
-                        data={this.state.dialog}
+                        data={dialog}
                         rootName={false}
                         className="editor-in-dialog"
                     />

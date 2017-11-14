@@ -1,6 +1,6 @@
 {
-    "name": "NiRethink",
-    "version": "1.0.0",
+    "name": "ni-rethink",
+    "version": "1.0.1",
     "description": "thinkdb gui client",
     "main": "main.js",
     "scripts": {

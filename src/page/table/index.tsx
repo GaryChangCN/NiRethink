@@ -6,6 +6,8 @@ import l from '../../lib/lang'
 import * as Pagenation from 'react-paginate'
 import Icon from '../../components/svg-icon'
 import history from '../../lib/history'
+import * as _ from 'lodash'
+import {isObservableArray, toJS} from 'mobx'
 
 import table from '../../store/table'
 import service from '../../store/service'
@@ -193,13 +195,13 @@ class Tables extends React.Component<any, any> {
                 <div className="middle">
                     {viewType === 'table' ?
                     <Detail
-                        list={detailList.peek()}
+                        list={toJS(detailList)}
                         indexList={data.detail.indexList}
                         onRemoveRow={id => table.removeRow(id)}
                         onEditRow={datas => this.handleEditRow(datas)}
                     /> : <Editor
                         type='view'
-                        data={detailList.peek()}
+                        data={toJS(detailList)}
                         rootName={tableName}
                     />}
                 </div>

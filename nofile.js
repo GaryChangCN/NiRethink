@@ -36,7 +36,7 @@ module.exports = (task, option) => {
             '-p',
             './tsconfig.json'
         ]
-        yield kit.spawn('./node_modules/typescript/bin/tsc', args, {
+        yield kit.spawn('./node_modules/.bin/tsc', args, {
             prefix: 'TSC | :blue'
         })
     }))
@@ -50,7 +50,7 @@ module.exports = (task, option) => {
     }))
 
     task('dev', ['check-dev', 'tsc-w', 'template-dev', 'electron'], 'run in development', (opt) => {
-        kit.spawn('./node_modules/webpack-dev-server/bin/webpack-dev-server.js', [
+        kit.spawn('./node_modules/.bin/webpack-dev-server', [
             '--progress',
             '--hot',
             '--info',
@@ -63,7 +63,7 @@ module.exports = (task, option) => {
     })
 
     task('electron', 'open electron in dev model', () => {
-        kit.spawn('./node_modules/electron/cli.js', ['.', 'development'], {prefix: 'Electron | :blue'})
+        kit.spawn('./node_modules/.bin/electron', ['.', 'development'], {prefix: 'Electron | :blue'})
     })
 
     task('build', ['tsc-p', 'template-prod'], 'build app to dist', kit.async(function * (opt) {
@@ -80,13 +80,13 @@ module.exports = (task, option) => {
 
     task('production', ['build'], 'run in production', kit.async(function * () {
         kit.log(`\n>>>>>>>> start electron >>>>>>>>>>>\n`)
-        yield kit.spawn('./node_modules/electron/cli.js', ['.', 'production'], {prefix: 'Electron | :blue'})
+        yield kit.spawn('./node_modules/.bin/electron', ['.', 'production'], {prefix: 'Electron | :blue'})
     }))
 
     task('package', ['build'], 'package to macos app', kit.async(function * (opt) {
         const platform = opt.platform || 'darwin'
         kit.log(`\n>>>>>>>> package >>>>>>>>>>>\n`)
-        yield kit.spawn('./node_modules/electron-packager/cli.js', [
+        yield kit.spawn('./node_modules/.bin/electron-packager', [
             '.',
             'NiRethink',
             '--platform',
