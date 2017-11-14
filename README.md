@@ -20,7 +20,7 @@ RethinkDB client
 
 * Table list
 
-![table-list](http://oyjfljgue.bkt.clouddn.com/ni3.png?imageView2/0/format/webp/q/75|imageslim)
+![table-list](http://oyjfljgue.bkt.clouddn.com/ni9.png?imageView2/0/format/webp/q/75|imageslim)
 
 * Object item support
 
