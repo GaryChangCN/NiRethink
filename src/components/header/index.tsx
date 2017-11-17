@@ -21,7 +21,25 @@ class Header extends React.Component<any, any> {
             showAbout: false
         }
     }
+    back () {
+        if (history.length > 0) {
+            history.goBack()
+        } else {
+            history.replace('/')
+        }
+    }
     renderControl () {
+        const showBack = app.store.showBack
+        if (showBack) {
+            return (
+                <div className="left">
+                    <span
+                        className = "pt-icon-standard pt-icon-chevron-left icon-back"
+                        onClick = {() => this.back()}
+                    ></span>
+                </div>
+            )
+        }
         const name = table.store.connectionName
         const collList = Array.from(service.collect.keys())
         const {showPanel} = this.state
@@ -92,9 +110,9 @@ class Header extends React.Component<any, any> {
                     <div className="content">Download new version</div>
                 </div>
                 <div className="line" onClick = {() => {
-                    shell.openExternal('https://github.com/GaryChangCN/NiRethink/blob/master/LICENSE')
+                    history.push('/web-view')
                 }}>
-                    <div className="content">Open source license</div>
+                    <div className="content">Official Admin Console</div>
                 </div>
             </div>
         )

@@ -38,7 +38,8 @@ class App {
     store = {
         alert: '',
         prompt: _.cloneDeep(this.defaultPrompt),
-        confirm: _.cloneDeep(this.defaultConfirm)
+        confirm: _.cloneDeep(this.defaultConfirm),
+        showBack: false
     }
 
     toaster (msg = '', PRIMARY: 'PRIMARY' | 'SUCCESS' | 'WARNING' | 'DANGER' = 'PRIMARY', timeout = 3000) {

@@ -5,6 +5,7 @@ import history from '../lib/history'
 import Main from './main'
 import AddConn from './add-conn'
 import Table from './table'
+import WebView from './web-view'
 
 
 class Index extends React.Component<any, any> {
@@ -16,6 +17,7 @@ class Index extends React.Component<any, any> {
                         <Route path = '/'                       exact component = {AddConn}    />
                         <Route path = '/add-conn'               exact component = {AddConn}    />
                         <Route path = '/table'                  exact component = {Table}      />
+                        <Route path = '/web-view'               exact component = {WebView}    />
                     </Switch>
                 </Main>
             </Router>
