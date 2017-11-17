@@ -35,8 +35,9 @@ class Detail extends React.Component<any, any> {
         head.forEach(item => {
             if (item === 'id') {
                 ret.unshift('id')
+            } else {
+                ret.push(item)
             }
-            ret.push(item)
         })
         return ret
     }
@@ -138,7 +139,7 @@ class Detail extends React.Component<any, any> {
                         </Popover>
                     </td>
                     {cloneHead.map((key, j) => {
-                        let content = item[key] || ''
+                        let content = item.hasOwnProperty(key) ? item[key] : ''
                         if (typeof content === 'object') {
                             return <td key={j} className={`object ${indexList[key] ? 'inde' : ''}`}>
                                 ...Object
@@ -157,7 +158,7 @@ class Detail extends React.Component<any, any> {
                                 ></span>
                             </td>
                         }
-                        content = String(content)
+                        content = content + ''
                         if (content.length > 140) {
                             return <td key={j} className={`object ${indexList[key] ? 'inde' : ''}`}>
                                 {content.slice(0, 140) + '......'}
