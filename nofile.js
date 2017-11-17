@@ -41,6 +41,23 @@ module.exports = (task, option) => {
         })
     }))
 
+    task('lint', 'lint whole project', function (opts) {
+        let conf = [
+            '--force',
+
+            '-t', 'stylish',
+            '-c', 'tslint.json',
+
+            'src/**/*.ts',
+            '*.ts'
+        ]
+
+        if (opts.fix)
+            conf.unshift('--fix')
+
+        return kit.spawn('tslint', conf)
+    })
+
     task('template-dev', 'render-template-dev', kit.async(function * () {
         yield kit.exec('node ./config/template.js development')
     }))
@@ -66,7 +83,7 @@ module.exports = (task, option) => {
         kit.spawn('./node_modules/.bin/electron', ['.', 'development'], {prefix: 'Electron | :blue'})
     })
 
-    task('build', ['tsc-p', 'template-prod'], 'build app to dist', kit.async(function * (opt) {
+    task('build', ['lint', 'tsc-p', 'template-prod'], 'build app to dist', kit.async(function * (opt) {
         const config = opt.config || 'prod'
         kit.log(`\n>>>>>>>> build >>>>>>>>>>>\n`)
         yield kit.spawn('./node_modules/webpack/bin/webpack.js', [
