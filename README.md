@@ -38,6 +38,10 @@ RethinkDB client
 
 ![multi-conn](http://oyjfljgue.bkt.clouddn.com/ni8.png?imageView2/0/format/webp/q/75|imageslim)
 
+* Official Admin Console Support
+
+![official admin](http://oyjfljgue.bkt.clouddn.com/ni10png.png?imageView2/0/format/webp/q/75|imageslim)
+
 ## Todo
 
 * Windows download support (you can package it now by yourself :) )
